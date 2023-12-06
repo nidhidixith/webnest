@@ -38,16 +38,14 @@ const DisplayProfile = () => {
                 {loading && <p>Loading profile...</p>}
                 {userProfile && (
                     <div>
-                        <h1 className="profile-header">{userProfile.username}'s Profile</h1>
+                        <h1 className="profile-header">{userProfile.first_name} {userProfile.last_name}'s Profile</h1>
                         <div className="profile-field">
                             <p>Firstname: {userProfile.first_name}</p>
                         </div>
                         <div className="profile-field">
                             <p>Lastname: {userProfile.last_name}</p>
                         </div>
-                        <div className="profile-field">
-                            <p>Email: {userProfile.email}</p>
-                        </div>
+
                         <div className="profile-field">
                             <p>Bio: {userProfile.bio}</p>
                         </div>

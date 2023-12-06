@@ -4,7 +4,6 @@ import BaseLayout from '../../components/BaseLayout/baselayout';
 const Index = () => {
   return (
     <BaseLayout/>
-
   );
 };
 

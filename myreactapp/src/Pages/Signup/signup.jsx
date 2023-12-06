@@ -13,11 +13,10 @@ const Signup = () => {
       const navigate = useNavigate();
       const [username, setUsername] = useState('');
       const [password, setPassword] = useState('');
-      const [email, setEmail] = useState('');
 
    const handleSignup = async () => {
     try {
-        const response = await axios.post(`${API_BASE_URL}signup/`, { username, password, email });
+        const response = await axios.post(`${API_BASE_URL}signup/`, { username, password});
         //const token = response.data.token;  // Fetch the token from the response
         console.log('Signup successful');
         //console.log(status)
@@ -46,18 +45,13 @@ const Signup = () => {
           <h2>Create your account</h2>
           </div>
           <div className="form-group">
-            <label>Username:</label>
-            <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+            <label>Email address:</label>
+            <input type="email" value={username} onChange={(e) => setUsername(e.target.value)} />
           </div>
 
           <div className="form-group">
             <label>Password:</label>
             <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-          </div>
-
-          <div className="form-group">
-            <label>Email:</label>
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
           </div>
 
           <div>
@@ -77,29 +71,4 @@ const Signup = () => {
 
 export default Signup;
 
-{/*
-  <>
-    <BaseLayout></BaseLayout>
-    <div>
-
-      <div>
-        <label>Username:</label>
-        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-      </div>
-
-      <div>
-        <label>Password:</label>
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-      </div>
-
-      <div>
-        <label>Email:</label>
-        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-      </div>
-
-      <button onClick={handleSignup}>Sign Up</button>
-
-    </div>
-    </>
-  */}
 

@@ -52,11 +52,7 @@ const UserProfileCompletion = () => {
     formData.append('link', profileForm.link);
     formData.append('bio', profileForm.bio);
     formData.append('date_of_birth', profileForm.date_of_birth);
-    //formData.append('profile_pic', profilePic);
-    // Check if the user uploaded a new profile picture
-    //if (profileForm.profile_pic) {
-        //formData.append('profile_pic', profileForm.profile_pic);
-    //}
+
     if (profilePic)
     {
         formData.append('profile_pic', profilePic);

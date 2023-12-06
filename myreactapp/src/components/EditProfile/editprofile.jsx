@@ -7,8 +7,6 @@ import { useNavigate } from 'react-router-dom';
 
 const EditProfile = () => {
   const [formData, setFormData] = useState({
-    username: '',
-    email: '',
     first_name: '',
     last_name: '',
     link: '',
@@ -21,8 +19,6 @@ const EditProfile = () => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
   const token = localStorage.getItem('token');
-
-
 
   useEffect(() => {
     // Fetch user profile data and populate the form
@@ -64,7 +60,6 @@ const EditProfile = () => {
   }
   console.log(formData);
 };
-
 
 
   const handleSubmit = async (e) => {
@@ -111,13 +106,6 @@ const EditProfile = () => {
   <form className="edit-profile-form" onSubmit={handleSubmit} encType="multipart/form-data">
     {/* Render your form inputs based on the formData state */}
     {/* Ensure that the input names match the field names in your Django model */}
-    <label className="edit-profile-label">Username
-      <input className="edit-profile-input" type="text" name="username" value={formData.username} onChange={handleInputChange} />
-    </label>
-
-    <label className="edit-profile-label">Email
-      <input className="edit-profile-input" type="email" name="email" value={formData.email} onChange={handleInputChange} />
-    </label>
 
     <label className="edit-profile-label">First Name
         <input className="edit-profile-input" type="text" name="first_name" value={formData.first_name} onChange={handleInputChange} />
@@ -139,21 +127,14 @@ const EditProfile = () => {
         <input className="edit-profile-input" type="date" name="date_of_birth" value={formData.date_of_birth} onChange={handleInputChange} />
         </label>
 
-    {/* ... other input fields ... */}
-
     <label className="edit-profile-label">Profile Picture
       <input className="edit-profile-file-input" type="file" accept="image/*" name="profile_pic" onChange={handleInputChange} />
     </label>
 
-    {/* Add other fields as needed */}
     <input className="edit-profile-submit" type="submit" value="Save Changes" />
   </form>
-
-
 </div>
 </>
-
-
   );
 };
 
