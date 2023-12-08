@@ -1,10 +1,11 @@
 import React from 'react';
 import './profile.css';
 
-const Step2 = ({ profileForm, handleInputChange, prevStep, nextStep }) => (
+const Step2 = ({ profileForm, handleInputChange, prevStep, error, handleError}) => (
   <>
 
     <div className="step-container">
+    {error && <p className="error-message">{error}</p>}
       <label>
         Last Name:
         <input type="text" name="last_name" value={profileForm.last_name} onChange={handleInputChange} />
@@ -14,7 +15,7 @@ const Step2 = ({ profileForm, handleInputChange, prevStep, nextStep }) => (
       <button className="pagination-button" onClick={prevStep}>
         Previous
       </button>
-      <button className="pagination-button" onClick={nextStep}>
+      <button className="pagination-button" onClick={handleError}>
         Next
       </button>
     </div>

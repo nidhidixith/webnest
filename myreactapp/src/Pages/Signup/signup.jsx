@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useState } from 'react';
 import axios from 'axios';
@@ -9,44 +8,61 @@ import { useNavigate } from 'react-router-dom';
 const API_BASE_URL = 'http://localhost:8000/api/';
 
 const Signup = () => {
+  const navigate = useNavigate();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [emailExistsError, setEmailExistsError] = useState('');
 
-      const navigate = useNavigate();
-      const [username, setUsername] = useState('');
-      const [password, setPassword] = useState('');
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
-   const handleSignup = async () => {
+  const handleSignup = async () => {
     try {
-        const response = await axios.post(`${API_BASE_URL}signup/`, { username, password});
-        //const token = response.data.token;  // Fetch the token from the response
-        console.log('Signup successful');
-        //console.log(status)
+      if (!validateEmail(username)) {
+        setEmailError('Please enter a valid email address');
+        setEmailExistsError(''); // Clear existing error message
+        return;
+      }
 
-        const { token, message } = response.data;
+      const response = await axios.post(`${API_BASE_URL}signup/`, { username, password });
+      console.log('Signup successful');
 
-        // Store the token securely (e.g., in local storage)
-        localStorage.setItem('token', token);
+      const { token, message } = response.data;
 
-        console.log('Received token:', token);
-        console.log('Message:', message);
+      // Store the token securely (e.g., in local storage)
+      localStorage.setItem('token', token);
 
-        navigate('/profile');
+      console.log('Received token:', token);
+      console.log('Message:', message);
+
+      navigate('/profile');
     } catch (error) {
-        console.error('Error during signup:', error.response.data.error);
+      console.error('Error during signup:', error.response.data.error);
+      setEmailExistsError('Email ID already exists');
+      setEmailError(''); // Clear existing error message
     }
-    };
+  };
 
   return (
-  <>
+    <>
+      <BaseLayout></BaseLayout>
       <div className="signup-container">
-        <BaseLayout></BaseLayout>
-
+        <div className="heading">
+        <h2>Create your account</h2>
+        </div>
+        {emailError && <p className="error-message">{emailError}</p>}
+        {emailExistsError && <p className="error-message">{emailExistsError}</p>}
         <div className="signup-form">
-          <div className="heading">
-          <h2>Create your account</h2>
-          </div>
+
+
+
           <div className="form-group">
             <label>Email address:</label>
             <input type="email" value={username} onChange={(e) => setUsername(e.target.value)} />
+
           </div>
 
           <div className="form-group">
@@ -55,20 +71,20 @@ const Signup = () => {
           </div>
 
           <div>
-          <p className="login-click"> Already have an account?<a className="login-click" href="/login">Login</a></p>
+            <p className="login-click">
+              Already have an account?<a className="login-click" href="/login">
+                Login
+              </a>
+            </p>
           </div>
 
-           <div className="button-container">
-          <button onClick={handleSignup}>Sign Up</button>
-            </div>
+          <div className="button-container">
+            <button onClick={handleSignup}>Sign Up</button>
+          </div>
         </div>
       </div>
-
     </>
-
   );
 };
 
 export default Signup;
-
-

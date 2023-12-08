@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import './baselayout.css';
 import Logout from '../../Pages/Logout/logout';
 
-
 const BaseLayout = () => {
     const token = localStorage.getItem('token');
   return (

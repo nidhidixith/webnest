@@ -10,6 +10,7 @@ h2 {
 
 .signup-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
@@ -74,4 +75,15 @@ button:hover {
   background-color: #4143b5;
 }
 
-
+.error-message {
+  color: #721c24;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: bold;
+  width: 25%; /* Set width to 100% */
+  box-sizing: border-box;
+  margin-bottom: 20px; /* Adjusted margin to overlap with the login container */
+}

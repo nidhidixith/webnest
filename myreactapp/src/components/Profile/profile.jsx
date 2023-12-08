@@ -14,6 +14,7 @@ const API_BASE_URL = 'http://localhost:8000/api/';
 const UserProfileCompletion = () => {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
+  const [error, setError] = useState('');
   const [profileForm, setProfileForm] = useState({
     first_name: '',
     last_name: '',
@@ -22,6 +23,16 @@ const UserProfileCompletion = () => {
     date_of_birth: '',
     profile_pic: null,  // Use null for the profile picture file
   });
+
+  const handleError = () => {
+    if (!profileForm.first_name.trim()) {
+      setError('This field is required');
+    }
+    else {
+      setError('');
+      nextStep();
+    }
+  };
 
   const handleInputChange = (e) => {
     const { name, value, type } = e.target;
@@ -45,8 +56,9 @@ const UserProfileCompletion = () => {
 
   const handleFormSubmit = async (e,profilePic=null) => {
     e.preventDefault();
-
-    const formData = new FormData();
+    if(!error)
+    {
+        const formData = new FormData();
     formData.append('first_name', profileForm.first_name);
     formData.append('last_name', profileForm.last_name);
     formData.append('link', profileForm.link);
@@ -74,14 +86,16 @@ const UserProfileCompletion = () => {
     } catch (error) {
       console.error('Error during profile completion:', error.response.data.error);
     }
+    }
+
   };
 
   const renderFormStep = () => {
     switch (step) {
       case 1:
-        return <Step1 profileForm={profileForm} handleInputChange={handleInputChange} nextStep={nextStep} />;
+        return <Step1 profileForm={profileForm} handleInputChange={handleInputChange} error={error} handleError={handleError}/>;
       case 2:
-        return <Step2 profileForm={profileForm} handleInputChange={handleInputChange} prevStep={prevStep} nextStep={nextStep} />;
+        return <Step2 profileForm={profileForm} handleInputChange={handleInputChange} prevStep={prevStep} error={error} handleError={handleError} />;
       case 3:
         return <Step3 profileForm={profileForm} handleInputChange={handleInputChange} prevStep={prevStep} nextStep={nextStep} />;
       case 4:

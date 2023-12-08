@@ -11,6 +11,7 @@ const Login = () => {
       const navigate = useNavigate();
       const [username, setUsername] = useState('');
       const [password, setPassword] = useState('');
+      const [error, setError] = useState(null);
 
       const handleLogin = async () => {
       try {
@@ -27,16 +28,20 @@ const Login = () => {
         navigate('/success');
       } catch (error) {
       console.error('Error during login:', error.response.data.error);
+      setError('Invalid credentials');
     }
   };
 
   return (
     <>
+       <BaseLayout></BaseLayout>
+
       <div className="login-container">
-        <BaseLayout></BaseLayout>
+      <h2>Login</h2>
+        {error && <div className="error-message">{error}</div>}
         <div className="login-form">
           <div className="heading">
-          <h2>Login</h2>
+
           </div>
           <div className="form-group">
             <label>Username:</label>
@@ -47,6 +52,7 @@ const Login = () => {
             <label>Password:</label>
             <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
           </div>
+
 
            <div className="button-container">
           <button onClick={handleLogin}>Login</button>
