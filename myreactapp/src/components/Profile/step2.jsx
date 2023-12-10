@@ -15,7 +15,7 @@ const Step2 = ({ profileForm, handleInputChange, prevStep, error, handleError}) 
       <button className="pagination-button" onClick={prevStep}>
         Previous
       </button>
-      <button className="pagination-button" onClick={handleError}>
+      <button className="pagination-button" onClick={() => handleError("last_name")}>
         Next
       </button>
     </div>

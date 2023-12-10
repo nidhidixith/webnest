@@ -24,15 +24,15 @@ const UserProfileCompletion = () => {
     profile_pic: null,  // Use null for the profile picture file
   });
 
-  const handleError = () => {
-    if (!profileForm.first_name.trim()) {
-      setError('This field is required');
-    }
-    else {
-      setError('');
-      nextStep();
-    }
-  };
+  const handleError = (param) => {
+  console.log(profileForm[param])
+  if (!profileForm[param].trim()) {
+    setError(`This field is required`);
+  } else {
+    setError('');
+    nextStep();
+  }
+};
 
   const handleInputChange = (e) => {
     const { name, value, type } = e.target;
@@ -58,7 +58,7 @@ const UserProfileCompletion = () => {
     e.preventDefault();
     if(!error)
     {
-        const formData = new FormData();
+         const formData = new FormData();
     formData.append('first_name', profileForm.first_name);
     formData.append('last_name', profileForm.last_name);
     formData.append('link', profileForm.link);
@@ -86,29 +86,30 @@ const UserProfileCompletion = () => {
     } catch (error) {
       console.error('Error during profile completion:', error.response.data.error);
     }
+
     }
+
 
   };
 
   const renderFormStep = () => {
-    switch (step) {
-      case 1:
-        return <Step1 profileForm={profileForm} handleInputChange={handleInputChange} error={error} handleError={handleError}/>;
-      case 2:
-        return <Step2 profileForm={profileForm} handleInputChange={handleInputChange} prevStep={prevStep} error={error} handleError={handleError} />;
-      case 3:
-        return <Step3 profileForm={profileForm} handleInputChange={handleInputChange} prevStep={prevStep} nextStep={nextStep} />;
-      case 4:
-        return <Step4 profileForm={profileForm} handleInputChange={handleInputChange} prevStep={prevStep} nextStep={nextStep} />;
-      case 5:
-        return <Step5 profileForm={profileForm} handleInputChange={handleInputChange} prevStep={prevStep} nextStep={nextStep} />;
-      case 6:
-        return <Step6 profileForm={profileForm} handleInputChange={handleInputChange} prevStep={prevStep} handleFormSubmit={handleFormSubmit} />;
-      default:
-        return null;
-    }
-  };
-
+  switch (step) {
+    case 1:
+      return <Step1 profileForm={profileForm} handleInputChange={handleInputChange} error={error} handleError={handleError} />;
+    case 2:
+      return <Step2 profileForm={profileForm} handleInputChange={handleInputChange} prevStep={prevStep} error={error} handleError={handleError} />;
+    case 3:
+      return <Step3 profileForm={profileForm} handleInputChange={handleInputChange} prevStep={prevStep} error={error} handleError={handleError} />;
+    case 4:
+      return <Step4 profileForm={profileForm} handleInputChange={handleInputChange} prevStep={prevStep} error={error} handleError={handleError} />;
+    case 5:
+      return <Step5 profileForm={profileForm} handleInputChange={handleInputChange} prevStep={prevStep} error={error} handleError={handleError} />;
+    case 6:
+      return <Step6 profileForm={profileForm} handleInputChange={handleInputChange} prevStep={prevStep} handleFormSubmit={handleFormSubmit}  />;
+    default:
+      return null;
+  }
+};
   return (
     <>
       <div className="full-container">
