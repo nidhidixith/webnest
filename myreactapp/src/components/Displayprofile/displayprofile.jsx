@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import BaseLayout from '../BaseLayout/baselayout';
-import './displayProfile.css'; // Import your CSS file
+import './displayprofile.css'; // Import your CSS file
 
 const API_BASE_URL = 'http://localhost:8000/api/';
 

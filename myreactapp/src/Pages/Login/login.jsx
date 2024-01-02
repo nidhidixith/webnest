@@ -25,7 +25,7 @@ const Login = () => {
         console.log('Received token:', token);
         console.log('Message:', message);
 
-        navigate('/success');
+        navigate('/posts');
       } catch (error) {
       console.error('Error during login:', error.response.data.error);
       setError('Invalid credentials');

@@ -7,7 +7,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserProfile
-        fields = ['username', 'first_name','last_name', 'link', 'bio', 'date_of_birth', 'profile_pic']
+        fields = ['username', 'first_name', 'last_name', 'link', 'bio', 'date_of_birth', 'profile_pic']
 
 
 class EditProfileSerializer(serializers.ModelSerializer):
@@ -16,4 +16,4 @@ class EditProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserProfile
-        fields = ['username', 'first_name','last_name', 'link', 'bio', 'date_of_birth', 'profile_pic']
+        fields = ['username', 'first_name', 'last_name', 'link', 'bio', 'date_of_birth', 'profile_pic']

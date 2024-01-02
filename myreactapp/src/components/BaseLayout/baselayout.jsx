@@ -24,17 +24,22 @@ const BaseLayout = () => {
             </button>
             <div className="collapse navbar-collapse" id="navbarToggle">
               <div className="navbar-nav mr-auto">
-                <a className="nav-item nav-link" href="/">Home</a>
+
                 <a className="nav-item nav-link" href="#">About</a>
+
               </div>
 
 
             <div className="navbar-nav">
                 {token ? (
                   <>
+                     <div className="navbar-nav mr-auto">
+                    <a className="nav-item nav-link" href="/posts">Home</a>
+                    </div>
                     <a className="nav-item nav-link" href="/displayprofile">
                       Profile
                     </a>
+                    <a className="nav-item nav-link" href="/displayposts">Posts</a>
                     <Logout />
                   </>
                 ) : (

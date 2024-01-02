@@ -58,7 +58,7 @@ const UserProfileCompletion = () => {
     e.preventDefault();
     if(!error)
     {
-         const formData = new FormData();
+    const formData = new FormData();
     formData.append('first_name', profileForm.first_name);
     formData.append('last_name', profileForm.last_name);
     formData.append('link', profileForm.link);
@@ -82,14 +82,11 @@ const UserProfileCompletion = () => {
 
       console.log(response.data);
       alert("Profile Completion successful");
-      navigate('/success');
+      navigate('/posts');
     } catch (error) {
       console.error('Error during profile completion:', error.response.data.error);
     }
-
     }
-
-
   };
 
   const renderFormStep = () => {

@@ -4,7 +4,7 @@ import Index from './Pages/Index/App';
 import Signup from './Pages/Signup/signup';
 import Login from './Pages/Login/login';
 import UserProfileCompletion from './components/Profile/profile';
-import DisplayProfile from './components/DisplayProfile/displayprofile';
+import DisplayProfile from './components/Displayprofile/displayprofile';
 import Step1 from './components/Profile/step1';
 import Step2 from './components/Profile/step2';
 import Step3 from './components/Profile/step3';
@@ -14,6 +14,8 @@ import Step6 from './components/Profile/step6';
 import EditProfile from './components/EditProfile/editprofile';
 import Logout from './Pages/Logout/logout';
 import Success from './success';
+import UserPosts from './components/Posts/posts';
+import DisplayPosts from './components/Displayposts/displayposts';
 
 const Paths = () => {
   return (
@@ -33,6 +35,8 @@ const Paths = () => {
         <Route path="/editprofile" element={<EditProfile/>} />
         <Route path="/logout" element={<Logout/>} />
         <Route path="/success" element={<Success/>} />
+        <Route path="/posts" element={<UserPosts/>} />
+        <Route path="/displayposts" element={<DisplayPosts/>} />
 
       </Routes>
     </Router>
