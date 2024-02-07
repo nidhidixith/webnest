@@ -1,35 +1,193 @@
-// DisplayProfile.css
-
-/* Add your CSS styles here */
-
-.profile-container {
-    max-width: 600px;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+.profile-container{
+  width:35%;
+  margin: 0 auto;
+  /*border:2px solid pink;*/
 }
 
-.profile-header {
-    text-align: center;
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: #333;
-}
-
-.profile-field {
-    margin-bottom: 10px;
+.profile-pic-container {
+  display:flex;
+  /*position: relative;*/
+  border-radius:10px;
+  margin-bottom:2%;
+  overflow:hidden;
+  border:1px solid #d7d4d9;
+  background-color:white;
+  padding:5px 20px;
 }
 
 .profile-pic {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover; /* Maintain aspect ratio and cover the container */
-    margin-bottom: 20px;
+  margin-top:10px;
+  width:150px;
+  height:150px;
+  border-radius: 10px;
+  margin-right:3%;
 }
 
-/* Add more styles as needed */
+.profile-details {
+  display: flex;
+  flex-direction: column; /* Stack the name and button vertically */
+  /*border:1px solid red;*/
+}
+
+.follow-button-container button {
+  background:white;
+  border:2px solid gray;
+  padding:3px 25px;
+  border-radius:10px;
+  color:black;
+  font-weight:bold;
+  margin-top: 20px; /* Add some spacing between the name and the button */
+}
+
+.follow-button-container button:hover{
+  border:2px solid blue;
+}
+
+.follow-button-container p{
+  margin-top:5px;
+  margin-left:10px;
+}
+
+.name-field p{
+  font-size:1.7rem;
+  font-weight:bold;
+  margin:0;
+}
+
+.edit-profile-details-button{
+  /*position: absolute;
+  bottom: 2px; */
+  margin-top:auto;
+  margin-right:0px;
+  padding:5px 5px;
+  color:blue;
+  background:white;
+}
+
+.edit-profile-details-button:hover{
+   background:white;
+}
+
+.edit-profile-details-button:focus{
+   outline:none;
+}
+
+/*Bio*/
+
+.bio-container{
+   border:1px solid #d7d4d9;
+   margin-bottom:2%;
+   padding:20px 20px;
+   background-color:white;
+   border-radius:10px;
+   /*position: relative;  Add position relative to the container */
+}
+
+.bio-h2{
+   text-align:left;
+   color:black;
+   font-size:1.5rem;
+   font-weight:bold;
+   font-family:Arial;
+   margin-bottom:10px;
+}
+
+.bio-container p{
+   text-align:justify;
+   color:black;
+   font-family:Arial;
+}
+
+.edit-bio-button{
+  /*position: absolute;
+  bottom: 2px; */
+  padding:5px 5px;
+  color:blue;
+  background:white;
+  margin-left:92%;
+}
+
+.edit-bio-button:hover{
+  background:white;
+}
+
+.edit-bio-button:focus{
+   outline:none;
+}
+
+/* External Links*/
+
+.external-links-container{
+   /*display: flex;
+   flex-direction: column;  Stack the name and button vertically */
+   border:1px solid #d7d4d9;
+   margin-bottom:2%;
+   padding:20px 20px;
+   background-color:white;
+   border-radius:10px;
+   /*position: relative;*/
+}
+
+.external-links-container a{
+   margin-left:1%;
+}
+
+.edit-links-button{
+  /*position: absolute;
+  bottom: 2px; */
+  margin-left:92%;
+  padding:5px 5px;
+  color:blue;
+  background:white;
+}
+
+.edit-links-button:hover{
+  background:white;
+}
+
+.edit-links-button:focus{
+   outline:none;
+}
+/* Interests*/
+
+.interests-container{
+   border:1px solid #d7d4d9;
+   margin-bottom:2%;
+   padding:20px 20px;
+   background-color:white;
+   border-radius:10px;
+}
+
+.interests-h2{
+   text-align:left;
+   color:black;
+   font-size:1.5rem;
+   font-weight:bold;
+   font-family:Arial;
+   margin-bottom:10px;
+}
+
+.interests-container p{
+   color:black;
+   font-family:Arial;
+}
+
+.edit-interests-button{
+  /*position: absolute;
+  bottom: 2px; */
+  padding:5px 5px;
+  color:blue;
+  margin-left:92%;
+  background:white;
+}
+
+.edit-interests-button:hover{
+   background:white;
+}
+
+.edit-interests-button:focus{
+   outline:none;
+}
+
+
 

@@ -16,6 +16,17 @@ import Logout from './Pages/Logout/logout';
 import Success from './success';
 import UserPosts from './components/Posts/posts';
 import DisplayPosts from './components/Displayposts/displayposts';
+import Home from './Pages/Home/home';
+
+import TryLogin from './Pages/Login/trylogin';
+import TrySignUp from './Pages/Signup/trysignup';
+import TryStep1 from './components/Profile/tryprofile';
+import TryStep2 from './components/Profile/trystep2';
+import TryStep3 from './components/Profile/trystep3';
+import TryStep4 from './components/Profile/trystep4';
+import TryStep5 from './components/Profile/trystep5';
+import TryUserProfileCompletion from './components/Profile/tryprofile';
+
 
 const Paths = () => {
   return (
@@ -37,6 +48,16 @@ const Paths = () => {
         <Route path="/success" element={<Success/>} />
         <Route path="/posts" element={<UserPosts/>} />
         <Route path="/displayposts" element={<DisplayPosts/>} />
+        <Route path="/home" element={<Home/>} />
+
+        <Route path="/trylogin" element={<TryLogin/>} />
+        <Route path="/trysignup" element={<TrySignUp/>} />
+        <Route path="/tryprofile" element={<TryStep1/>} />
+        <Route path="/trystep2" element={<TryStep2/>} />
+        <Route path="/trystep3" element={<TryStep3/>} />
+        <Route path="/trystep4" element={<TryStep4/>} />
+        <Route path="/trystep5" element={<TryStep5/>} />
+        <Route path="/tryprofile" element={<TryUserProfileCompletion/>} />
 
       </Routes>
     </Router>

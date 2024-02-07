@@ -55,14 +55,11 @@ const Signup = () => {
         </div>
         {emailError && <p className="error-message">{emailError}</p>}
         {emailExistsError && <p className="error-message">{emailExistsError}</p>}
+
         <div className="signup-form">
-
-
-
           <div className="form-group">
             <label>Email address:</label>
             <input type="email" value={username} onChange={(e) => setUsername(e.target.value)} />
-
           </div>
 
           <div className="form-group">

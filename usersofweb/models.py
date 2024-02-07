@@ -1,17 +1,25 @@
 # models.py
 
+from django.contrib.postgres.fields import ArrayField
 from django.contrib.auth.models import User
 from django.db import models
 from PIL import Image
 
 
-class UserProfile(models.Model):
+class UserDetails(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30, blank=True)
-    link = models.URLField(max_length=200, blank=True)
-    bio = models.TextField(max_length=500, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
+    bio = models.TextField(max_length=500, blank=True)
+
+    instagram = models.URLField(max_length=200, blank=True)
+    facebook = models.URLField(max_length=200, blank=True)
+    portfolioLink = models.URLField(max_length=200, blank=True)
+    externalLink = models.URLField(max_length=200, blank=True)
+
+    areas_of_interest = ArrayField(models.CharField(max_length=100), blank=True, default=list)
+
     # Modify upload_to and default parameters
     profile_pic = models.ImageField(default='def.webp', upload_to='profile_pics', null=True, blank=True)
 
@@ -28,3 +36,4 @@ class UserProfile(models.Model):
     #         output_size = (300, 300)
     #         img.thumbnail(output_size)
     #         img.save(self.profile_pic.path)
+

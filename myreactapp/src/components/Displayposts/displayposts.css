@@ -1,0 +1,121 @@
+.user-post-container {
+  width: 35%;
+  margin: 0 auto;
+  /*border: 2px solid pink;*/
+}
+
+.user-post {
+  display: flex;
+  flex-direction: column;
+  position:relative;
+  margin-bottom: 3%;
+  border: 1px solid #d7d4d9;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.user-post-top-container {
+  display: flex;
+  margin-top:3%;
+  margin-left:3%;
+  margin-right:3%;
+  margin-bottom: 1%;
+  /*border:1px solid brown;*/
+}
+
+.user-post-close-button {
+  cursor: pointer;
+  font-size: 20px;
+  color: black;
+  /*border: 1px solid pink;*/
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: none;
+  outline: none; /* Add this line to remove the outline */
+}
+
+.user-post-close-button:focus {
+  outline: none;
+}
+
+.user-post-close-button:hover {
+  color: red;
+  background: none;
+}
+
+
+.user-post-top-container img {
+  margin-right: 3%;
+  width: 50px;
+  height: 50px;
+}
+
+.user-post-user-details {
+  /*border: 1px solid red;*/
+  margin: 0;
+  padding: 0;
+}
+
+.user-post-user-details p {
+  margin: 0;
+  padding: 0;
+}
+
+.user-post-user-details p:first-child {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.user-post-user-details p:nth-child(2) {
+  font-size: 12px;
+}
+
+.user-post-bottom-container {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  /*border: 1px solid purple;*/
+}
+
+.user-post-bottom-container p {
+  margin:1%;
+  margin-left:3%;
+  margin-right:3%;
+  font-size: 16px;
+  /*border: 1px solid blue;*/
+}
+
+.user-post-media {
+  flex-grow: 1;
+}
+
+.user-post-media video,
+.user-post-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  margin-bottom: 1%;
+}
+
+.user-post-button-container {
+  display: flex;
+  margin-left: 1%;
+  margin-right: 1%;
+  border-top: 1px solid #d7d4d9;
+}
+
+.user-post-bottom-container button {
+  border: none;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  background: white;
+  color: black;
+  flex-grow: 1;
+  outline: none; /* Add this line to remove the outline */
+}
+
+.user-post-bottom-container button:hover {
+  background: #c8c2cc;
+}

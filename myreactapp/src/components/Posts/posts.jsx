@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './posts.css';
-import BaseLayout from '../BaseLayout/baselayout';
+import Navbar from '../Navbar/navbar.jsx';
 import { useNavigate } from 'react-router-dom';
 
 const API_BASE_URL = 'http://localhost:8000/api/';
@@ -23,14 +23,21 @@ const UserPosts = () => {
 
   const handleSubmit = async(event) => {
     event.preventDefault();
+    if (!text && !mediaFile) {
+        setError('Please enter text or upload a media file.');
+        return;
+    }
 
     // Create a FormData object to send both text and media file to the server
     const formData = new FormData();
     formData.append('text', text);
-    formData.append('media_file', mediaFile);
+    // Check if media_file is not null before appending to FormData
+      if (mediaFile !== null) {
+        formData.append('media_file', mediaFile);
+      }
     console.log(formData);
     try {
-      const response = await axios.post(`${API_BASE_URL}posts/userposts/`, formData, {
+      const response = await axios.post(`${API_BASE_URL}posts/create/`, formData, {
         headers: {
           'Authorization': `Token ${token}`,
           'Content-Type': 'multipart/form-data',
@@ -48,18 +55,14 @@ const UserPosts = () => {
 
   return (
     <>
-    <BaseLayout/>
     {error && <p className="error-message">{error}</p>}
     <div className="posts-container">
-
       <div className="rounded-image">
         <img src={`http://localhost:8000/media/user-icon.png`} alt="User Icon" className="background-image" />
       </div>
 
       <div className="post-media">
-
         <div className="content">
-
           <form encType="multipart/form-data" onSubmit={handleSubmit}>
           <textarea
             placeholder="Say something"

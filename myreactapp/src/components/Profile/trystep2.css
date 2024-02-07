@@ -1,0 +1,81 @@
+.step2-container{
+   margin:0;
+   padding:0;
+   display:flex;
+   flex-direction: column;
+   height:100vh;
+   align-items: center;
+   justify-content: center;
+   /*border:5px solid red;*/
+}
+
+.basic-info-container {
+  width: 30%;
+  height:auto;
+  border-radius:10px;
+  display:flex;
+  flex-direction: column; /* Align children vertically */
+  /*background:rgba(0,0,0,0.7);*/
+  background:white;
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.7); /* Add box shadow */
+}
+
+.basic-info-container h1 {
+  flex: 0 0 10%; /* 10% of the container height, fixed height */
+  /*border: 2px solid red;*/
+  font-size: 1.7rem;
+  color: black;
+  margin: 0;
+  padding: 10px;
+  text-align:center;
+}
+
+.basic-info-container form {
+  width:100%;
+  height:90%;
+  /*border: 2px solid blue;*/
+}
+
+.basic-info-container label {
+  display: block;
+  color:black;
+  margin-bottom: 1%;
+  margin-left:8%;
+  font-weight:normal;
+}
+
+.basic-info-container input,
+textarea {
+  width: 85%;
+  padding: 8px;
+  margin-bottom: 15px;
+  margin-left:7.5%;
+  border:1px solid #211e1e;
+  border-radius:5px;
+  background:white;
+  /*background-color:#f2e2e1;*/
+}
+
+.basic-info-container
+textarea {
+  padding: 18px;
+}
+
+.basic-info-container .button-group {
+  display: flex;
+  justify-content: space-between;
+}
+
+.basic-info-container button {
+  width:30%;
+  background-color: #751d48;
+  border: 1px solid #d1d7de;
+  border-radius: 5px;
+  font-size:17px;
+  font-weight:bold;
+  margin-bottom:2%;
+}
+
+.basic-info-container button:hover {
+  background-color: #000A8F;
+}

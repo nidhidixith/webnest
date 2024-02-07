@@ -1,0 +1,142 @@
+.outer-login-container{
+  margin:0;
+  padding:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:100vh;
+}
+
+.outer-login-container:hover .outer-LContainer {
+  transform: scale(1.05); /* Add a scale transformation on hover */
+}
+
+.outer-LContainer {
+  display:flex;
+  width:700px;
+  height:500px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  /*transition: transform 0.3s ease;*/
+  font-family: Arial, sans-serif;
+  margin: auto;
+  transition: transform 0.8s ease; /* Add a transition effect on the transform property */
+}
+
+.login-image-container{
+  width:380px;
+  height:100%;
+  border: 2px solid white;
+}
+
+.login-image-container img{
+  width:380px;
+  height:100%;
+}
+
+.form-LContainer{
+  width:320px;
+  height:100%;
+  border: 2px solid white;
+}
+
+.close-button{
+  display:flex;
+  margin-left: 270px;
+  background: none;
+  border: none;
+  width: 10px;
+  height: 10px;
+  font-size: 20px; /* Adjust the font size as needed */
+  cursor: pointer;
+  color: #d1d7de; /* Change the color as needed */
+  outline: none; /* Remove the default focus outline */
+}
+
+
+.close-button:hover {
+  background: none; /* Change the hover/focus color as needed */
+  color:red;
+  outline: none; /* Remove the focus outline on hover/focus */
+}
+
+.close-button span {
+  display: inline;
+}
+
+.form-LContainer h1{
+  display:inline;
+  color:white;
+  margin-left:33%;
+  margin-top:0px;
+}
+
+.login-group{
+   margin-top: 40px;
+   width:350px;
+   height:300px;
+   /*border: 2px solid white;*/
+}
+
+.login-group label{
+   display:block;
+   margin-top:30px;
+   margin-left:20px;
+   color:white;
+}
+
+.login-group input{
+  width: 80%;
+  margin-left:15px;
+  background-color:rgba(0, 0, 0, 0);
+  border-color: #d1d7de;
+  color: white;
+}
+
+.login-group input:hover{
+  background-color:rgba(0, 0, 0, 0.7);
+}
+
+.login-group button{
+  margin-top:20px;
+}
+
+.button-container button{
+  background-color:rgba(0, 0, 0, 0.8);
+  background-color: #751d48;
+  border: 1px solid #d1d7de;
+  border-radius: 15px;
+  padding: 10px 35px;
+  font-size:17px;
+  font-weight:bold;
+}
+
+.button-container button:hover{
+   background-color: #000A8F;
+}
+
+.login-signup-container{
+  margin-top:0px;
+  margin-left:20px;
+  color:white;
+}
+
+.login-signup-container p{
+  display:inline;
+  color:white;
+  margin-right:5px;
+  font-size:14px;
+}
+
+.login-signup-container a{
+  display:inline;
+  color: #d4267d;
+  font-weight:bold;
+  font-size:15px;
+}
+
+.login-signup-container a:hover{
+  color: #bf2271;
+}
+

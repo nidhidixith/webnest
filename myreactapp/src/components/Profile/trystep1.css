@@ -1,0 +1,63 @@
+.step1-container{
+   margin:0;
+   padding:0;
+   display:flex;
+   flex-direction: column;
+   height:100vh;
+   align-items: center;
+   justify-content: center;
+   /*border:5px solid red;*/
+}
+
+.welcome-container {
+  width: 50%;
+  height:auto;
+  display:flex;
+  flex-direction: column; /* Align children vertically */
+  border-radius:10px;
+  /*background:rgba(0,0,0,0.7);*/
+  background:white;
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.7); /* Add box shadow */
+}
+
+.welcome-container h1 {
+  flex: 0 0 10%; /* 10% of the container height, fixed height */
+  /*border: 2px solid red;*/
+  font-size: 1.7rem;
+  color: black;
+  margin: 0;
+  padding: 10px;
+  text-align:center;
+}
+
+.welcome-container .content {
+  text-align: justify;
+}
+
+.welcome-container p {
+  margin-left:3%;
+  margin-right:3%;
+  margin-bottom: 15px;
+  font-size:17px;
+  color:black;
+}
+
+.welcome-container .cta {
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.welcome-container button{
+   width:20%;
+   background-color: #751d48;
+  border: 1px solid #d1d7de;
+  border-radius: 5px;
+  font-size:17px;
+  font-weight:bold;
+  margin-left:40%;
+  margin-bottom:2%;
+}
+
+.welcome-container button:hover{
+   background-color: #000A8F;
+}

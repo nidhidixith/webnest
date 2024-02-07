@@ -8,6 +8,7 @@ import Step5 from './Step5';
 import Step6 from './Step6';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import './tryprofile.css';
 
 const API_BASE_URL = 'http://localhost:8000/api/';
 
@@ -69,6 +70,7 @@ const UserProfileCompletion = () => {
     {
         formData.append('profile_pic', profilePic);
     }
+
     console.log(formData);
     const token = localStorage.getItem('token');
 

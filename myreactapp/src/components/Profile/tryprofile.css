@@ -1,0 +1,59 @@
+.full-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7)),url('../../assets/bimage2.png') no-repeat center center fixed;
+}
+
+.full-container h2{
+  color:white;
+}
+
+.step-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  border-color: #181b96;
+  box-shadow: 0 0 10px #181b96;
+  max-width: 400px;
+  width: 100%;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.pagination-button {
+  background-color: #6265fc;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  outline: none;
+}
+
+.pagination-button:hover {
+  background-color: #4143b5;
+}
+
+
+.error-message {
+  color: #721c24;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: bold;
+  width: 100%; /* Set width to 100% */
+  box-sizing: border-box;
+  margin-bottom: 20px; /* Adjusted margin to overlap with the login container */
+}

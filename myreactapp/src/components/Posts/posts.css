@@ -1,15 +1,14 @@
-
 .posts-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    border: 1px solid;
-    border-radius: 10px;
-    padding: 20px;
-    width: 600px;
-    background: white;
-    margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  border: 1px solid red;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 600px; /* Use max-width for responsiveness */
+  margin: auto;
+  background: white; /* Use a neutral background color */
 }
 
 .post-media {

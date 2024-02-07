@@ -2,16 +2,28 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 const API_BASE_URL = 'http://localhost:8000/api/';
 import './editprofile.css';
-import BaseLayout from '../BaseLayout/baselayout';
 import { useNavigate } from 'react-router-dom';
+import EditNameProfilePic from './edit_name_profile_pic.jsx';
+import EditBio from './edit_bio';
+import EditExternalLinks from './edit_external_links';
+import EditInterests from './edit_interests';
 
-const EditProfile = () => {
+import ProfilePicture from '../DisplayProfile/profilepicture.jsx';
+import BasicDetails from '../DisplayProfile/basicdetails.jsx';
+import ExternalLinks from '../DisplayProfile/external_links.jsx';
+import DisplayProfile from '../DisplayProfile/displayprofile.jsx';
+
+const EditProfile = ({ renderComponent, onEditCancel, updateUserProfile }) => {
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
-    link: '',
-    bio: '',
     date_of_birth: '',
+    bio: '',
+    instagram: '',
+    facebook: '',
+    portfolioLink: '',
+    externalLink: '',
+    areas_of_interest: [],
     profile_pic: undefined,
   });
 
@@ -24,117 +36,123 @@ const EditProfile = () => {
     // Fetch user profile data and populate the form
     const fetchUserProfile = async () => {
       try {
-
         const response = await axios.get(`${API_BASE_URL}getprofile/`, {
-                    headers: {
-                        Authorization: `Token ${token}`,
-                    },
-                });
-        const userProfile = response.data;
-        console.log(userProfile);
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        });
+        const userProfile=response.data;
         setFormData(userProfile);
-        //console.log(formData);
+
       } catch (error) {
         console.error('Error fetching user profile:', error);
       }
     };
 
     fetchUserProfile();
-  }, []);  // Run this effect only once on component mount
+  }, []); // Run this effect only once on component mount
 
   const handleInputChange = (e) => {
-  const { name, type } = e.target;
+    const { name, type } = e.target;
 
-  if (type === 'file') {
-    const file = e.target.files[0];
-    setFormData({
-      ...formData,
-      [name]: file,
-    });
-  } else {
-    const value = e.target.value;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  }
-  console.log(formData);
-};
-
+    if (type === 'file') {
+      const file = e.target.files[0];
+      setFormData({
+        ...formData,
+        [name]: file,
+      });
+    } else {
+      const value = e.target.value;
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
+  };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    const formDataWithProfilePic = new FormData();
+      e.preventDefault();
+      try {
+        const formDataWithProfilePic = new FormData();
 
-    // Append all other form data fields
-    Object.keys(formData).forEach((key) => {
-      if (key !== 'profile_pic') {
-        formDataWithProfilePic.append(key, formData[key]);
+        // Append all other form data fields
+        Object.keys(formData).forEach((key) => {
+          if (key !== 'profile_pic') {
+            formDataWithProfilePic.append(key, formData[key]);
+          }
+        });
+
+        // If a new profile picture is selected, append it; otherwise, use the existing one
+        if (formData.profile_pic instanceof File) {
+          formDataWithProfilePic.append('profile_pic', formData.profile_pic);
+        }
+
+        const response = await axios.put(`${API_BASE_URL}editprofile/`, formDataWithProfilePic, {
+          headers: {
+            Authorization: `Token ${token}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+
+        console.log('success');
+        alert("Profile edit successful");
+        onEditCancel();
+        setSuccess(true);
+        updateUserProfile(response.data);
+
+        //navigate('/displayprofile');
+      } catch (error) {
+        setError(error.response.data);
       }
-    });
-
-    // If a new profile picture is selected, append it; otherwise, use the existing one
-    if (formData.profile_pic instanceof File) {
-      formDataWithProfilePic.append('profile_pic', formData.profile_pic);
-    }
-
-    const response = await axios.put(`${API_BASE_URL}editprofile/`, formDataWithProfilePic, {
-      headers: {
-        Authorization: `Token ${token}`,
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-
-    setSuccess(true);
-    console.log(formData);
-    console.log('success');
-    alert("Profile Completion successful");
-    navigate('/displayprofile');
-  } catch (error) {
-    setError(error.response.data);
-  }
-};
+    };
 
   return (
-  <>
-  <BaseLayout />
-    <div className="edit-profile-container">
-  <h2 className="edit-profile-header">Edit Profile</h2>
+    <>
+      <div className="edit-profile-modal">
+        <div className="edit-profile-container">
 
-  {error && <p className="edit-profile-error">Error: {error}</p>}
-  <form className="edit-profile-form" onSubmit={handleSubmit} encType="multipart/form-data">
-    {/* Render your form inputs based on the formData state */}
-    {/* Ensure that the input names match the field names in your Django model */}
+          <button className="close-button" onClick={onEditCancel}>
+            &times;
+          </button>
 
-    <label className="edit-profile-label">First Name
-        <input className="edit-profile-input" type="text" name="first_name" value={formData.first_name} onChange={handleInputChange} />
-        </label>
+          {error && <p className="edit-profile-error">Error: {error}</p>}
 
-        <label className="edit-profile-label">Last Name
-        <input className="edit-profile-input" type="text" name="last_name" value={formData.last_name} onChange={handleInputChange} />
-        </label>
+          {/* Page 1 */}
+          {/* Render the appropriate component based on renderComponent prop */}
+          {renderComponent === 'edit_name_profile_pic' && (
+            <EditNameProfilePic
+              formData={formData}
+              handleInputChange={handleInputChange}
+            />
+          )}
 
-        <label className="edit-profile-label">Link
-        <input className="edit-profile-input" type="text" name="link" value={formData.link} onChange={handleInputChange} />
-        </label>
+          {/* Page 2 */}
+          {renderComponent === 'edit_bio' && (
+            <EditBio formData={formData} handleInputChange={handleInputChange} />
+          )}
 
-        <label className="edit-profile-label">Bio
-        <textarea name="bio" value={formData.bio} onChange={handleInputChange} />
-        </label>
+          {/* Page 3 */}
+          {renderComponent === 'edit_external_links' && (
+            <EditExternalLinks
+              formData={formData}
+              handleInputChange={handleInputChange}
+            />
+          )}
 
-        <label className="edit-profile-label">Date of Birth
-        <input className="edit-profile-input" type="date" name="date_of_birth" value={formData.date_of_birth} onChange={handleInputChange} />
-        </label>
+          {/* Page 4 */}
+          {renderComponent === 'edit_interests' && (
+            <EditInterests
+              formData={formData}
+              handleInputChange={handleInputChange}
+            />
+          )}
 
-    <label className="edit-profile-label">Profile Picture
-      <input className="edit-profile-file-input" type="file" accept="image/*" name="profile_pic" onChange={handleInputChange} />
-    </label>
-
-    <input className="edit-profile-submit" type="submit" value="Save Changes" />
-  </form>
-</div>
-</>
+          <button className="edit-profile-submit" onClick={handleSubmit}>
+            Save changes
+          </button>
+        </div>
+      </div>
+    </>
   );
 };
 

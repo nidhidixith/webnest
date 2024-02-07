@@ -1,0 +1,171 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(rgba(0,0,0,0.2),rgba(0,0,0,0.2)),url('../../assets/bkgimage.png') no-repeat center center fixed;
+  background-size: cover;
+}
+
+.container{
+  margin: 0;
+  padding: 0;
+}
+
+.hidden {
+  display: none;
+}
+
+.loginicon {
+  position: absolute;
+  width: 80px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bolder;
+  color: black;
+  height: 40px;
+  left: 65%;
+  top: 20px;
+  background:#2bc6ff;
+  border-radius: 24px;
+  cursor: pointer;
+}
+
+.loginicon:hover{
+  color: white;
+}
+
+.signupicon {
+  position: absolute;
+  width: 80px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bolder;
+  color: black;
+  height: 40px;
+  left: 55%;
+  top: 20px;
+  background:#2bc6ff;
+  border-radius: 24px;
+  cursor: pointer;
+}
+
+.signupicon:hover{
+  color: white;
+}
+
+@keyframes scrollBackground {
+  0% {
+    background-position: center bottom;
+  }
+  100% {
+    background-position: center top;
+  }
+}
+
+.nav-bar {
+  margin-top: 30px;
+  margin-left: 500px;
+
+}
+
+.nav-bar a {
+  color: white;
+  padding: 20px;
+  font-size: 18px;
+  font-family: Arial, sans-serif;
+}
+
+.nav-bar a:hover {
+  color: lightblue;
+  text-decoration: none;
+}
+
+.text1-container{
+   width:700px;
+   height:150px;
+   margin-left:80px;
+   margin-top:150px;
+   margin-bottom:5px;
+}
+
+.text1-container p{
+   color: white;
+   font-size:30px;
+   font-family: Arial, sans-serif;
+}
+
+.text2-container{
+    width:650px;
+   height:75px;
+   margin-left:80px;
+   margin-bottom: 10px;
+}
+
+.text2-container p{
+   color: white;
+   font-size:18px;
+   font-family:Arial, sans-serif;
+}
+
+.button {
+  /* Add styling for the button as needed */
+  padding: 10px 20px;
+  font-size: 20px;
+  background-color: #751d48;
+  color: white;
+  border: 2px solid white;
+  border-radius: 15px;
+  cursor: pointer;
+  margin-left:320px;
+  font-family: Arial, sans-serif;
+}
+
+.button:hover{
+   background-color: #000A8F;
+}
+
+.images-container img {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border: 2px solid white;
+  margin-bottom: 15px;
+  animation: scrollImages 10s linear infinite; /* Adjust the duration and timing function as needed */
+}
+
+#image1 {
+  bottom: 30px;
+  right:50px;
+}
+
+#image4 {
+  bottom: 240px;
+  right:50px;
+}
+
+#image5 {
+  bottom: 450px;
+  right:50px;
+}
+
+#image8 {
+  bottom: 660px;
+  right:50px;
+}
+
+#image9 {
+  bottom: 870px;
+  right:50px;
+}
+
+@keyframes scrollImages {
+  0% {
+    transform: translateY(100vh);
+  }
+  100% {
+    transform: translateY(calc(0)); /* Adjust the value based on the image height and spacing */
+  }
+}

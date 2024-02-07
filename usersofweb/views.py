@@ -7,7 +7,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from .serializers import UserProfileSerializer, EditProfileSerializer
 from rest_framework.authtoken.models import Token
-from .models import UserProfile
+from .models import UserDetails
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -67,13 +67,33 @@ def success(request):
     return Response({'message': 'successful'}, status=200)
 
 
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def complete_user_profile(request):
+    user = request.user
+    user_profile, created = UserDetails.objects.get_or_create(user=user)
+    print("Requested data:")
+    print(request.data)
+    # Use the serializer to update the user profile fields
+    serializer = UserProfileSerializer(user_profile, data=request.data, partial=True)
+    print("Serializer is")
+    print(serializer)
+    # Validate and save the serializer
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        print(serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def display_profile(request):
     print("Ok")
     if request.method == 'GET':
         print("Fine")
-        user_profile = request.user.userprofile
+        user_profile = request.user.userdetails
         print("Almost there")
         serializer = UserProfileSerializer(user_profile)
         print("yayy")
@@ -81,27 +101,10 @@ def display_profile(request):
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['PUT'])
-@permission_classes([IsAuthenticated])
-def complete_user_profile(request):
-    user = request.user
-    user_profile, created = UserProfile.objects.get_or_create(user=user)
-    print(request.data)
-    # Use the serializer to update the user profile fields
-    serializer = UserProfileSerializer(user_profile, data=request.data, partial=True)
-    print(serializer)
-    # Validate and save the serializer
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    else:
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_user_profile(request):
-    user_profile = request.user.userprofile  # Assuming a one-to-one relationship between User and UserProfile
+    user_profile = request.user.userdetails  # Assuming a one-to-one relationship between User and UserProfile
     serializer = UserProfileSerializer(user_profile)
     return Response(serializer.data)
 
@@ -111,7 +114,7 @@ def get_user_profile(request):
 def edit_profile(request):
     user = request.user
     print(user)
-    user_profile, created = UserProfile.objects.get_or_create(user=user)
+    user_profile, created = UserDetails.objects.get_or_create(user=user)
     print(request.data)
     # Use the serializer to update the user profile fields
     serializer = EditProfileSerializer(user_profile, data=request.data, partial=True)

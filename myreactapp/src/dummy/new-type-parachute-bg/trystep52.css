@@ -1,0 +1,134 @@
+.step5-container{
+   margin:0;
+   padding:0;
+   display:flex;
+   height:100vh;
+   align-items: center;
+   justify-content: center;
+   border:5px solid red;
+}
+
+.interest-selector-container {
+  display:flex;
+  width:50%;
+  height:65%;
+  /*justify-content: space-around;*/
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 20px;
+  border:2px solid blue;
+}
+
+.interest-bubbles {
+  width:70%;
+  height:100%;
+  flex-wrap: wrap;
+  border:2px solid green;
+}
+
+.interest-bubbles h1{
+  height:6%;
+  display:block
+  color:black;
+  font-size:1.5rem;
+  text-align:center;
+  border:1px solid yellow;
+}
+
+.bubble, .related-bubble {
+  display: inline-block;
+  margin: 5px;
+  padding: 10px;
+  /*background-color: #114244;*/
+  background-color: none;
+  border: 1px solid black;
+  color: black;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.bubble:hover {
+  background-color: #cbcdd1;
+}
+
+.bubble.selected, .related-bubble.selected{
+  /*animation: disappear 0.5s ease-in-out;*/
+  opacity: 0;
+}
+
+/* Add the following styles for a fade-in effect */
+.related-fields {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.related-bubble {
+  animation: fadeIn 2s;
+}
+
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.selected-bubbles{
+  display:inline-block;
+}
+
+.selected-bubble {
+  position: relative;
+  padding: 7px 20px;
+  font-size: 16px;
+  margin: 5px;
+  background-color: none;
+  color: black;
+  border: 1px solid black;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.selected-bubble .close-button{
+  position: absolute;
+  top: 0%;
+  right: 20px;
+  font-size: 15px;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.selected-bubble:hover {
+  background-color:  #cbcdd1;
+}
+
+.selected-bubble.selected {
+  animation: disappear 0.5s ease-in-out;
+  opacity: 0;
+}
+
+.step5-container button{
+  width:30%;
+  margin-left:35%;
+  background-color: #751d48;
+  border: 1px solid #d1d7de;
+  border-radius: 5px;
+  font-size:17px;
+  font-weight:bold;
+  margin-top:2%;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+@keyframes disappear {
+  to {
+    opacity: 0;
+  }
+}

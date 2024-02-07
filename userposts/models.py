@@ -1,24 +1,41 @@
-from django.utils import timezone
-
 from django.contrib.auth.models import User
 from django.db import models
 from PIL import Image
 
 def upload_to(instance, filename):
-    # Customize the upload path based on file type (photo or video)
-    if filename.endswith('.jpg') or filename.endswith('.png') or filename.endswith('.jpeg') or filename.endswith('.webp'):
-        return f'user_posts/photos/{filename}'
-    elif filename.endswith('.mp4') or filename.endswith('.mov') or filename.endswith('.avi'):
-        return f'user_posts/videos/{filename}'
+    if instance.media_file:
+        # Customize the upload path based on file type (photo or video)
+        if filename.endswith(('.jpg', '.png', '.jpeg', '.webp')):
+            return f'user_posts/photos/{filename}'
+        elif filename.endswith(('.mp4', '.mov', '.avi')):
+            return f'user_posts/videos/{filename}'
+        else:
+            # Raise an error for unsupported file types
+            raise ValueError('Unsupported file type')
     else:
-        # Handle other file types or raise an error if not supported
-        raise ValueError('Unsupported file type')
+        # If media_file is not provided, handle accordingly (e.g., store in a generic folder)
+        return None
 
 
-class UserPost(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    text = models.TextField(max_length=500, blank=True)
+class UserPosts(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField(max_length=5000, blank=True)
     media_file = models.FileField(upload_to=upload_to, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.created_at}"
 
 
+class Likes(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(UserPosts, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+class Comments(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(UserPosts, on_delete=models.CASCADE)
+    text = models.TextField(max_length=500)
+    created_at = models.DateTimeField(auto_now_add=True)
 
