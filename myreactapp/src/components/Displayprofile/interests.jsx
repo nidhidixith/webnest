@@ -1,9 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './displayprofile.css'; // Import your CSS file
-import EditProfile from '../EditProfile/editprofile.jsx'; // Import the EditProfile component
+import EditInterests from '../EditProfile/edit_interests.jsx'; // Import the EditProfile component
 
-const Interests = ({ userProfile, updateUserProfile }) => {
+const API_BASE_URL = 'http://localhost:8000/api/';
+
+const Interests = () => {
+    const [userProfile, setUserProfile] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    const updateUserProfile = (newProfile) => {
+        setUserProfile(newProfile);
+    };
+
+    useEffect(() => {
+        const fetchUserProfile = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await axios.get(`${API_BASE_URL}get-profile/interests`, {
+                    headers: {
+                        Authorization: `Token ${token}`,
+                    },
+                });
+                setUserProfile(response.data);
+            } catch (error) {
+                console.error('Error fetching user profile:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchUserProfile();
+    }, []);
+
     const [isEditing, setIsEditing] = useState(false);
     const [editComponent, setEditComponent] = useState('');
 
@@ -14,6 +43,8 @@ const Interests = ({ userProfile, updateUserProfile }) => {
 
   return (
     <>
+      {userProfile && (
+
       <div className="interests-container">
         <h2 className="interests-h2">Areas of Interest</h2>
 
@@ -29,9 +60,10 @@ const Interests = ({ userProfile, updateUserProfile }) => {
           Edit
         </button>
 
-        {isEditing && editComponent && <EditProfile renderComponent={editComponent} onEditCancel={() => setIsEditing(false)}
+        {isEditing && editComponent && <EditInterests renderComponent={editComponent} onEditCancel={() => setIsEditing(false)}
          updateUserProfile={updateUserProfile}/>}
       </div>
+      )}
     </>
   );
 };

@@ -1,0 +1,174 @@
+
+.post-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.post-modal-content {
+  position:relative;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 30%;
+  text-align: center;
+}
+
+.post-modal-close-button{
+  position:absolute;
+  top:0;
+  right:0;
+  background-color:white;
+  color:black;
+}
+
+.post-modal-close-button:hover{
+  background-color:white;
+  color:red;
+}
+
+.post-modal-close-button:focus{
+  outline:none;
+}
+
+.post-modal-content p{
+  color:black;
+  font-size:1.5rem;
+}
+
+.post-modal-content textarea{
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  height: 150px;
+  text-align: justify;
+  overflow-y: auto;
+  margin:0;
+}
+
+.post-modal-attach-buttons{
+   border: 1px solid #ccc;
+  padding:5px;
+  display:flex;
+  justify-content: space-between;
+}
+
+span {
+  margin: 10px;
+}
+
+.custom-file-upload input{
+  display:none;
+}
+
+.custom-file-upload {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+}
+
+.custom-file-upload::after {
+  content: "Media";
+  visibility: hidden;
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 13px;
+  color: gray;
+  background-color: white;
+  border: 1px solid #ccc;
+  opacity: 0;
+  transition: opacity 0.5s ease, visibility 0.5s ease; /* Add a transition effect on opacity and visibility */
+}
+
+.custom-file-upload:hover::after {
+  visibility: visible;
+  opacity: 1;
+}
+
+.post-modal-post-button-container{
+  display:flex;
+}
+
+.post-modal-post-button{
+  flex-grow:1;
+  border-radius:10px;
+  background-color:#e6e7f0;
+  text-align:center;
+  color:black;
+}
+
+.post-modal-post-button:hover{
+  background-color:#ccc;
+}
+
+.post-modal-post-button.disabled {
+  pointer-events: none;
+  background-color: #e6e7f0; /* or any other color you want for the disabled state */
+}
+
+.post-modal-post-button.disabled:hover {
+  background-color: #e6e7f0; /* or the same color as the disabled state */
+}
+
+.post-modal-preview {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.preview-image,
+.preview-video {
+  max-width: 100%;
+  max-height: 300px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.preview-video {
+  width: 100%;
+}
+
+.preview-container {
+  position: relative;
+}
+
+.remove-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: none;
+  border: none;
+  color: red;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.remove-button:hover {
+  background:none;
+  color: darkred;
+}
+
+.post-modal-post-button:focus{
+  outline:none;
+}
+
+
+
+
+
+
+
+
+

@@ -22,7 +22,7 @@ const calculateElapsedTime = (created_at) => {
   } else {
     return createdAtDate.toLocaleDateString();
   }
-};
+  };
 
 const PostComponent = () => {
   const [userData, setUserData] = useState([]);
@@ -36,6 +36,7 @@ const PostComponent = () => {
       }))
     );
   };
+
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -75,6 +76,8 @@ const PostComponent = () => {
               </div>
               <div className="user-post-bottom-container">
                 <p>{post.text}</p>
+
+
                 {post.media_file && (
                   <div className="user-post-media">
                     {post.media_file.endsWith('.mp4') ||

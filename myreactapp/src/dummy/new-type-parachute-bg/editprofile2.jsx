@@ -2,14 +2,32 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 const API_BASE_URL = 'http://localhost:8000/api/';
 import './editprofile.css';
+import { useNavigate } from 'react-router-dom';
+import EditNameProfilePic from './edit_name_profile_pic.jsx';
+import EditBio from './edit_bio';
+import EditExternalLinks from './edit_external_links';
+import EditInterests from './edit_interests';
 
-const EditNameProfilePic = ({ renderComponent, onEditCancel, updateUserProfile }) => {
+import ProfilePicture from '../DisplayProfile/profilepicture.jsx';
+import BasicDetails from '../DisplayProfile/basicdetails.jsx';
+import ExternalLinks from '../DisplayProfile/external_links.jsx';
+import DisplayProfile from '../DisplayProfile/displayprofile.jsx';
+
+const EditProfile = ({ renderComponent, onEditCancel, updateUserProfile }) => {
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
+    date_of_birth: '',
+    bio: '',
+    instagram: '',
+    facebook: '',
+    portfolioLink: '',
+    externalLink: '',
+    areas_of_interest: [],
     profile_pic: undefined,
   });
 
+  const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
   const token = localStorage.getItem('token');
@@ -18,7 +36,7 @@ const EditNameProfilePic = ({ renderComponent, onEditCancel, updateUserProfile }
     // Fetch user profile data and populate the form
     const fetchUserProfile = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}get-profile/basic-details`, {
+        const response = await axios.get(`${API_BASE_URL}getprofile/`, {
           headers: {
             Authorization: `Token ${token}`,
           },
@@ -69,7 +87,7 @@ const EditNameProfilePic = ({ renderComponent, onEditCancel, updateUserProfile }
           formDataWithProfilePic.append('profile_pic', formData.profile_pic);
         }
 
-        const response = await axios.put(`${API_BASE_URL}edit-profile/basic-details`, formDataWithProfilePic, {
+        const response = await axios.put(`${API_BASE_URL}editprofile/`, formDataWithProfilePic, {
           headers: {
             Authorization: `Token ${token}`,
             'Content-Type': 'multipart/form-data',
@@ -90,45 +108,48 @@ const EditNameProfilePic = ({ renderComponent, onEditCancel, updateUserProfile }
       }
     };
 
-
   return (
     <>
       <div className="edit-profile-modal">
         <div className="edit-profile-container">
-      <button className="close-button" onClick={onEditCancel}>
+
+          <button className="close-button" onClick={onEditCancel}>
             &times;
           </button>
 
           {error && <p className="edit-profile-error">Error: {error}</p>}
-      <h2 className="edit-profile-header">Edit Profile</h2>
-      <label className="edit-profile-label">First Name</label>
-      <input
-        className="edit-profile-input"
-        type="text"
-        name="first_name"
-        value={formData.first_name}
-        onChange={handleInputChange}
-      />
 
-      <label className="edit-profile-label">Last Name</label>
-      <input
-        className="edit-profile-input"
-        type="text"
-        name="last_name"
-        value={formData.last_name}
-        onChange={handleInputChange}
-      />
+          {/* Page 1 */}
+          {/* Render the appropriate component based on renderComponent prop */}
+          {renderComponent === 'edit_name_profile_pic' && (
+            <EditNameProfilePic
+              formData={formData}
+              handleInputChange={handleInputChange}
+            />
+          )}
 
-      <label className="edit-profile-label">Profile Picture</label>
-      <input
-        className="edit-profile-file-input"
-        type="file"
-        accept="image/*"
-        name="profile_pic"
-        onChange={handleInputChange}
-      />
+          {/* Page 2 */}
+          {renderComponent === 'edit_bio' && (
+            <EditBio formData={formData} handleInputChange={handleInputChange} />
+          )}
 
-      <button className="edit-profile-submit" onClick={handleSubmit}>
+          {/* Page 3 */}
+          {renderComponent === 'edit_external_links' && (
+            <EditExternalLinks
+              formData={formData}
+              handleInputChange={handleInputChange}
+            />
+          )}
+
+          {/* Page 4 */}
+          {renderComponent === 'edit_interests' && (
+            <EditInterests
+              formData={formData}
+              handleInputChange={handleInputChange}
+            />
+          )}
+
+          <button className="edit-profile-submit" onClick={handleSubmit}>
             Save changes
           </button>
         </div>
@@ -137,4 +158,4 @@ const EditNameProfilePic = ({ renderComponent, onEditCancel, updateUserProfile }
   );
 };
 
-export default EditNameProfilePic;
+export default EditProfile;

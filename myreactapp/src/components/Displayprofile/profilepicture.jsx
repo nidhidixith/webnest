@@ -1,10 +1,36 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './displayprofile.css'; // Import your CSS file
+import axios from 'axios';
 import Rating from 'react-rating-stars-component'; // Import the rating component
-import EditNameProfile from '../EditProfile/edit_name_profile_pic.jsx'; // Import the EditProfile component
-import EditProfile from '../EditProfile/editprofile.jsx'; // Import the EditProfile component
+import EditNameProfilePic from '../EditProfile/edit_name_profile_pic.jsx'; // Import the EditProfile component
 
-const ProfilePicture = ({ userProfile, updateUserProfile }) => {
+const API_BASE_URL = 'http://localhost:8000/api/';
+
+const ProfilePicture = () => {
+  const [userProfile, setUserProfile] = useState(null);
+
+    const updateUserProfile = (newProfile) => {
+        setUserProfile(newProfile);
+    };
+
+    useEffect(() => {
+        const fetchUserProfile = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await axios.get(`${API_BASE_URL}get-profile/basic-details`, {
+                    headers: {
+                        Authorization: `Token ${token}`,
+                    },
+                });
+                setUserProfile(response.data);
+            } catch (error) {
+                console.error('Error fetching user profile:', error);
+            }
+        };
+
+        fetchUserProfile();
+    }, []);
+
   const [isEditing, setIsEditing] = useState(false);
   const [editComponent, setEditComponent] = useState('');
 
@@ -19,6 +45,8 @@ const ProfilePicture = ({ userProfile, updateUserProfile }) => {
   };
 
   return (
+     <>-
+     {userProfile && (
     <div className="profile-pic-container">
       <img
         className="profile-pic"
@@ -50,11 +78,14 @@ const ProfilePicture = ({ userProfile, updateUserProfile }) => {
         Edit
         </button>
 
-        {isEditing && editComponent && <EditProfile renderComponent={editComponent} onEditCancel={() => setIsEditing(false)}
+        {isEditing && editComponent && <EditNameProfilePic renderComponent={editComponent} onEditCancel={() => setIsEditing(false)}
          updateUserProfile={updateUserProfile}/>}
 
     </div>
+    )}
+    </>
   );
+
 };
 
 export default ProfilePicture;

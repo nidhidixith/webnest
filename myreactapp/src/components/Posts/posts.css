@@ -1,79 +1,29 @@
-.posts-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  border: 1px solid red;
-  border-radius: 10px;
-  padding: 20px;
-  max-width: 600px; /* Use max-width for responsiveness */
-  margin: auto;
-  background: white; /* Use a neutral background color */
+.create-post-container{
+  width:35%;
+  margin: 0 auto;
+  display:flex;
+  padding:15px;
+  margin-top:1%;
+  background-color:white;
+  border:1px solid #d7d4d9;
+  border-radius:10px;
 }
 
-.post-media {
-    display: flex;
-    align-items: center; /* Center items vertically */
+.create-post-container img{
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  margin-right:2%;
 }
 
-.rounded-image {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    overflow: hidden;
-    margin-right: 10px; /* Add margin between image and textarea */
-    margin-top: -50px; /* Adjust the top margin to move the image upward */
-
+.create-post-container button{
+  flex-grow:1;
+  border-radius:20px;
+  background-color:#e6e7f0;
+  text-align:left;
+  color:gray;
 }
 
-.rounded-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.content {
-    display: flex;
-    flex-direction: column; /* Stack items vertically */
-}
-
-.custom-textarea {
-    width: 500px;
-    border-radius: 30px;
-    padding: 10px;
-    margin-bottom: 10px;
-    z-index: 1;
-    background: transparent;
-}
-
-.custom-upload-button {
-    padding: 8px 16px;
-    font-size: 14px;
-    cursor: pointer;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #6265fc;
-    color: white;
-    z-index: 1;
-    width: 80px; /* Set width to auto or a fixed value as needed */
-}
-
-/* Hide the default file input */
-#file-upload {
-    display: none;
-}
-
-
-.error-message {
-  color: #721c24;
-  background-color: #f8d7da;
-  border: 1px solid #f5c6cb;
-  padding: 10px;
-  border-radius: 5px;
-  text-align: center;
-  font-weight: bold;
-  width: 25%; /* Set width to 100% */
-  box-sizing: border-box;
-  margin-bottom: 20px; /* Adjusted margin to overlap with the login container */
-  margin-left: 450px;
+.create-post-container button:focus{
+  outline:none;
 }

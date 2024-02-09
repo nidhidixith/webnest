@@ -1,10 +1,38 @@
 import { FaInstagram, FaFacebook, FaLink } from 'react-icons/fa'; // Import icons from a library
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import EditExternalLinks from '../EditProfile/edit_external_links.jsx'; // Import the EditProfile component
-import EditProfile from '../EditProfile/editprofile.jsx'; // Import the EditProfile component
 
+const API_BASE_URL = 'http://localhost:8000/api/';
 
-const ExternalLinks = ({ userProfile, updateUserProfile }) => {
+const ExternalLinks = () => {
+    const [userProfile, setUserProfile] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    const updateUserProfile = (newProfile) => {
+        setUserProfile(newProfile);
+    };
+
+    useEffect(() => {
+        const fetchUserProfile = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await axios.get(`${API_BASE_URL}get-profile/external-links`, {
+                    headers: {
+                        Authorization: `Token ${token}`,
+                    },
+                });
+                setUserProfile(response.data);
+            } catch (error) {
+                console.error('Error fetching user profile:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchUserProfile();
+    }, []);
+
   const [isEditing, setIsEditing] = useState(false);
   const [editComponent, setEditComponent] = useState('');
 
@@ -14,6 +42,9 @@ const ExternalLinks = ({ userProfile, updateUserProfile }) => {
   };
 
   return (
+    <>
+    {userProfile && (
+
     <div className="external-links-container">
      <div className="external-links">
       {userProfile.instagram && (<p>
@@ -40,9 +71,11 @@ const ExternalLinks = ({ userProfile, updateUserProfile }) => {
         Edit
       </button>
 
-      {isEditing  && editComponent && <EditProfile renderComponent={editComponent} onEditCancel={() => setIsEditing(false)}
+      {isEditing  && editComponent && <EditExternalLinks renderComponent={editComponent} onEditCancel={() => setIsEditing(false)}
       updateUserProfile={updateUserProfile}/>}
     </div>
+    )}
+    </>
   );
 };
 

@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
-from .serializers import UserProfileSerializer, EditProfileSerializer
+from .serializers import UserProfileSerializer, EditProfileSerializer, BasicDetailsSerializer,BioSerializer,ExternalLinksSerializer,InterestsSerializer
 from rest_framework.authtoken.models import Token
 from .models import UserDetails
 
@@ -89,16 +89,72 @@ def complete_user_profile(request):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def display_profile(request):
+def get_basic_details(request):
     print("Ok")
     if request.method == 'GET':
         print("Fine")
         user_profile = request.user.userdetails
         print("Almost there")
-        serializer = UserProfileSerializer(user_profile)
+        serializer = BasicDetailsSerializer(user_profile)
         print("yayy")
         return Response(serializer.data)
     return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_bio(request):
+    print("Ok")
+    if request.method == 'GET':
+        print("Fine")
+        user_profile = request.user.userdetails
+        print("Almost there")
+        serializer = BioSerializer(user_profile)
+        print("yayy")
+        return Response(serializer.data)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_external_links(request):
+    print("Ok")
+    if request.method == 'GET':
+        print("Fine")
+        user_profile = request.user.userdetails
+        print("Almost there")
+        serializer = ExternalLinksSerializer(user_profile)
+        print("yayy")
+        return Response(serializer.data)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_interests(request):
+    print("Ok")
+    if request.method == 'GET':
+        print("Fine")
+        user_profile = request.user.userdetails
+        print("Almost there")
+        serializer = InterestsSerializer(user_profile)
+        print("yayy")
+        return Response(serializer.data)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+# @api_view(['GET'])
+# @permission_classes([IsAuthenticated])
+# def display_profile(request):
+#     print("Ok")
+#     if request.method == 'GET':
+#         print("Fine")
+#         user_profile = request.user.userdetails
+#         print("Almost there")
+#         serializer = UserProfileSerializer(user_profile)
+#         print("yayy")
+#         return Response(serializer.data)
+#     return Response(status=status.HTTP_400_BAD_REQUEST)
+
 
 
 @api_view(['GET'])
@@ -111,13 +167,13 @@ def get_user_profile(request):
 
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
-def edit_profile(request):
+def edit_basic_details(request):
     user = request.user
     print(user)
     user_profile, created = UserDetails.objects.get_or_create(user=user)
     print(request.data)
     # Use the serializer to update the user profile fields
-    serializer = EditProfileSerializer(user_profile, data=request.data, partial=True)
+    serializer = BasicDetailsSerializer(user_profile, data=request.data, partial=True)
     print(serializer)
     # Validate and save the serializer
     if serializer.is_valid():
@@ -126,5 +182,83 @@ def edit_profile(request):
     else:
         print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def edit_bio(request):
+    user = request.user
+    print(user)
+    user_profile, created = UserDetails.objects.get_or_create(user=user)
+    print(request.data)
+    # Use the serializer to update the user profile fields
+    serializer = BioSerializer(user_profile, data=request.data, partial=True)
+    print(serializer)
+    # Validate and save the serializer
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        print(serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def edit_external_links(request):
+    user = request.user
+    print(user)
+    user_profile, created = UserDetails.objects.get_or_create(user=user)
+    print(request.data)
+    # Use the serializer to update the user profile fields
+    serializer = ExternalLinksSerializer(user_profile, data=request.data, partial=True)
+    print(serializer)
+    # Validate and save the serializer
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        print(serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def edit_interests(request):
+    user = request.user
+    print(user)
+    user_profile, created = UserDetails.objects.get_or_create(user=user)
+    print(request.data)
+    # Use the serializer to update the user profile fields
+    serializer = InterestsSerializer(user_profile, data=request.data, partial=True)
+    print(serializer)
+    # Validate and save the serializer
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        print(serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+# @api_view(['PUT'])
+# @permission_classes([IsAuthenticated])
+# def edit_profile(request):
+#     user = request.user
+#     print(user)
+#     user_profile, created = UserDetails.objects.get_or_create(user=user)
+#     print(request.data)
+#     # Use the serializer to update the user profile fields
+#     serializer = EditProfileSerializer(user_profile, data=request.data, partial=True)
+#     print(serializer)
+#     # Validate and save the serializer
+#     if serializer.is_valid():
+#         serializer.save()
+#         return Response(serializer.data, status=status.HTTP_200_OK)
+#     else:
+#         print(serializer.errors)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
