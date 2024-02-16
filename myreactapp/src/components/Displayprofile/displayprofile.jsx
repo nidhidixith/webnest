@@ -1,32 +1,49 @@
-// DisplayProfile.jsx
-
-import React, { useEffect, useState} from 'react';
-
-import axios from 'axios';
-import './displayprofile.css'; // Import your CSS file
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import Navbar from '../Navbar/navbar.jsx';
 import ProfilePicture from './profilepicture.jsx';
 import BasicDetails from './basicdetails.jsx';
 import ExternalLinks from './external_links.jsx';
 import Interests from './interests.jsx';
-
-const API_BASE_URL = 'http://localhost:8000/api/';
+import PostComponent from '../Displayposts/displayposts.jsx';
+import '../Displayposts/displayposts.css';
+import { useParams } from 'react-router-dom';
 
 const DisplayProfile = () => {
-    return (
-        <>
-            <div className="profile-container">
+  const { userId } = useParams();
+  const userIdInt = parseInt(userId, 10);
+  const [isDifferentProfile, setIsDifferentProfile]=useState(true);
 
-                    <div>
-                        <ProfilePicture/>
-                        <BasicDetails/>
-                        <ExternalLinks/>
-                        <Interests/>
-                    </div>
-
+  console.log('UserID from DisplayProfile:',userId);
+  console.log('Type of userID',typeof userId);
+  console.log('UserIDInt from DisplayProfile:',userIdInt);
+  console.log('Type of userIDInt',typeof userIdInt);
+  return (
+    <>
+      <Navbar />
+      <div className="profile-container">
+        {userId ? (
+          <>
+          <ProfilePicture isDifferentProfile={isDifferentProfile} userId={userIdInt} />
+          <BasicDetails isDifferentProfile={isDifferentProfile} userId={userIdInt} />
+          <ExternalLinks isDifferentProfile={isDifferentProfile} userId={userIdInt} />
+          <Interests isDifferentProfile={isDifferentProfile} userId={userIdInt} />
+          </>
+        ) : (
+          <>
+            <ProfilePicture />
+            <BasicDetails />
+            <ExternalLinks />
+            <Interests />
+            <div className="user-posts-heading">
+              <h2>Posts</h2>
             </div>
-        </>
-    );
+            <PostComponent />
+          </>
+        )}
+      </div>
+    </>
+  );
 };
 
 export default DisplayProfile;

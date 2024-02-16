@@ -41,43 +41,6 @@
   text-align:center;
 }
 
-.interest-selector-container {
-  flex-wrap: wrap;
-  /*border: 2px solid green;*/
-  overflow-y: auto; /* Enable vertical scrolling if needed */
-}
-
-.bubble, .related-bubble {
-  display: inline-block;
-  margin: 5px;
-  padding: 10px;
-  background-color: #e0e0e0;
-  border-radius: 20px;
-  cursor: pointer;
-}
-
-.bubble.selected, .related-bubble.selected {
-  background-color: #7ac5cd;
-  color: #ffffff;
-}
-
-.related-field {
-  display:inline;
-  flex-wrap: wrap;
-}
-
-.related-bubble {
-  animation: fadeIn 2s;
-}
-
-
-@keyframes fadeIn {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
-}
-
-
-
 .step4-container button {
   background-color: #751d48;
   border: 1px solid #d1d7de;

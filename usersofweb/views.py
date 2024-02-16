@@ -2,12 +2,16 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
+from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404
 from rest_framework.permissions import AllowAny
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
-from .serializers import UserProfileSerializer, EditProfileSerializer, BasicDetailsSerializer,BioSerializer,ExternalLinksSerializer,InterestsSerializer
+from .serializers import (UserProfileSerializer, EditProfileSerializer, BasicDetailsSerializer,
+                          BioSerializer,ExternalLinksSerializer,InterestsSerializer, UserConnectionSerializer)
 from rest_framework.authtoken.models import Token
-from .models import UserDetails
+from .models import UserDetails,UserConnection
+
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -94,7 +98,8 @@ def get_basic_details(request):
     if request.method == 'GET':
         print("Fine")
         user_profile = request.user.userdetails
-        print("Almost there")
+        print("Almost there basic details")
+        print(user_profile)
         serializer = BasicDetailsSerializer(user_profile)
         print("yayy")
         return Response(serializer.data)
@@ -102,18 +107,36 @@ def get_basic_details(request):
 
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
+def get_basic_details_by_id(request, user_id):
+    user_details = get_object_or_404(UserDetails, user__id=user_id)
+    print(user_details)
+    serializer = BasicDetailsSerializer(user_details)
+    return Response(serializer.data)
+
+@api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_bio(request):
     print("Ok")
+    user_id = request.user.id
+    print("UserID:", user_id)
     if request.method == 'GET':
         print("Fine")
         user_profile = request.user.userdetails
-        print("Almost there")
+        print("Almost there bio")
+        print(user_profile)
         serializer = BioSerializer(user_profile)
         print("yayy")
         return Response(serializer.data)
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_bio_by_id(request, user_id):
+    user_details = get_object_or_404(UserDetails, user__id=user_id)
+    print(user_details)
+    serializer = BioSerializer(user_details)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -128,6 +151,15 @@ def get_external_links(request):
         return Response(serializer.data)
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_external_links_by_id(request, user_id):
+    user_details = get_object_or_404(UserDetails, user__id=user_id)
+    print(user_details)
+    serializer = ExternalLinksSerializer(user_details)
+    return Response(serializer.data)
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_interests(request):
@@ -141,21 +173,13 @@ def get_interests(request):
         return Response(serializer.data)
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
-
-# @api_view(['GET'])
-# @permission_classes([IsAuthenticated])
-# def display_profile(request):
-#     print("Ok")
-#     if request.method == 'GET':
-#         print("Fine")
-#         user_profile = request.user.userdetails
-#         print("Almost there")
-#         serializer = UserProfileSerializer(user_profile)
-#         print("yayy")
-#         return Response(serializer.data)
-#     return Response(status=status.HTTP_400_BAD_REQUEST)
-
-
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_interests_by_id(request, user_id):
+    user_details = get_object_or_404(UserDetails, user__id=user_id)
+    print(user_details)
+    serializer = InterestsSerializer(user_details)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -241,24 +265,35 @@ def edit_interests(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-
-
-# @api_view(['PUT'])
+# @api_view(['POST'])
 # @permission_classes([IsAuthenticated])
-# def edit_profile(request):
-#     user = request.user
-#     print(user)
-#     user_profile, created = UserDetails.objects.get_or_create(user=user)
-#     print(request.data)
-#     # Use the serializer to update the user profile fields
-#     serializer = EditProfileSerializer(user_profile, data=request.data, partial=True)
-#     print(serializer)
-#     # Validate and save the serializer
-#     if serializer.is_valid():
-#         serializer.save()
+# def follow_user(request, user_id):
+#     try:
+#         user_to_follow = UserDetails.objects.get(pk=user_id)
+#
+#         if request.user != user_to_follow.user:  # To prevent self-following
+#             UserConnection.objects.get_or_create(follower=request.user, following=user_to_follow.user)
+#
+#             serializer = UserProfileSerializer(user_to_follow)
+#             return Response(serializer.data, status=status.HTTP_200_OK)
+#
+#         return Response({'error': 'Cannot follow yourself.'}, status=status.HTTP_400_BAD_REQUEST)
+#
+#     except UserDetails.DoesNotExist:
+#         return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+#
+# @api_view(['POST'])
+# @permission_classes([IsAuthenticated])
+# def unfollow_user(request, user_id):
+#     try:
+#         user_to_unfollow = UserDetails.objects.get(pk=user_id)
+#         connection = UserConnection.objects.get(follower=request.user, following=user_to_unfollow.user)
+#         connection.delete()
+#
+#         serializer = UserProfileSerializer(user_to_unfollow)
 #         return Response(serializer.data, status=status.HTTP_200_OK)
-#     else:
-#         print(serializer.errors)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#
+#     except (UserDetails.DoesNotExist, UserConnection.DoesNotExist):
+#         return Response({'error': 'User not found or not being followed.'}, status=status.HTTP_404_NOT_FOUND)
 
 

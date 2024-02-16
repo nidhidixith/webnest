@@ -1,9 +1,13 @@
-.create-post-container{
+.posts-outer-container{
   width:35%;
   margin: 0 auto;
+}
+
+.create-post-container{
   display:flex;
   padding:15px;
   margin-top:1%;
+  margin-bottom:2%;
   background-color:white;
   border:1px solid #d7d4d9;
   border-radius:10px;

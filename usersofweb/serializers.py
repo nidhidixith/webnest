@@ -42,7 +42,12 @@ class InterestsSerializer(serializers.ModelSerializer):
         model = UserDetails
         fields = ['username', 'areas_of_interest']
 
+from .models import UserConnection
 
+class UserConnectionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserConnection
+        fields = '__all__'
 
 
 class EditProfileSerializer(serializers.ModelSerializer):
@@ -57,6 +62,7 @@ class EditProfileSerializer(serializers.ModelSerializer):
 
 class UserFullNameSerializer(serializers.ModelSerializer):
     profile_pic = serializers.ImageField(use_url=True, required=False)
+    user_id = serializers.ReadOnlyField(source='user.id')  # Adjust the source according to your model structure
     class Meta:
         model = UserDetails
-        fields = ['first_name', 'last_name', 'profile_pic']
+        fields = ['user_id','first_name', 'last_name', 'profile_pic']

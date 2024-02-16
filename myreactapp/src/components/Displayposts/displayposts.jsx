@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import BaseLayout from '../BaseLayout/baselayout';
 import './displayposts.css';
@@ -24,8 +26,10 @@ const calculateElapsedTime = (created_at) => {
   }
   };
 
-const PostComponent = () => {
+const PostComponent = ({isOtherUsersPosts=false}) => {
   const [userData, setUserData] = useState([]);
+
+  const navigate = useNavigate();
   const token = localStorage.getItem('token');
 
   const updateElapsedTime = () => {
@@ -37,15 +41,31 @@ const PostComponent = () => {
     );
   };
 
+  const handleProfileButtonClick = (userId) => {
+    // Navigate to DisplayProfile with the post.id
+      console.log('UserID from PostComponent',userId);
+      navigate(`/displayprofile/${userId}`);
+    };
+
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}posts/get-user-posts/`, {
-          headers: {
-            Authorization: `Token ${token}`,
-          },
-        });
+        let response;
+        if (isOtherUsersPosts) {
+          response = await axios.get(`${API_BASE_URL}posts/get-other-users-posts/`, {
+            headers: {
+              Authorization: `Token ${token}`,
+            },
+          });
+        } else {
+          response = await axios.get(`${API_BASE_URL}posts/get-user-posts/`, {
+            headers: {
+              Authorization: `Token ${token}`,
+            },
+          });
+        }
+
         setUserData(response.data);
         // Update elapsed time every minute
         const intervalId = setInterval(updateElapsedTime, 60000);
@@ -53,12 +73,12 @@ const PostComponent = () => {
         // Cleanup the interval on component unmount
         return () => clearInterval(intervalId);
       } catch (error) {
-        console.log('Error fetching user posts');
+        console.log(`Error fetching ${isOtherUsersPosts ? 'other users' : 'user'} posts:`, error);
       }
     };
 
     fetchUserData();
-  }, [token]);
+  }, [token, isOtherUsersPosts]);
 
   return (
     <>
@@ -69,14 +89,14 @@ const PostComponent = () => {
               <div className="user-post-top-container">
                   <img src={`http://localhost:8000${post.user_details.profile_pic}`} alt="Profile Picture"/>
                   <div className="user-post-user-details">
-                      <p>{post.user_details.first_name} {post.user_details.last_name}</p>
+                      <button onClick={() => handleProfileButtonClick(post.user_details.user_id)}>
+                      <p>{post.user_details.first_name} {post.user_details.last_name}</p></button>
                       <p>{post.elapsed_time || calculateElapsedTime(post.created_at)}</p>
                   </div>
 
               </div>
               <div className="user-post-bottom-container">
                 <p>{post.text}</p>
-
 
                 {post.media_file && (
                   <div className="user-post-media">

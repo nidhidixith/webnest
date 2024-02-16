@@ -36,7 +36,8 @@ const Paths = () => {
         <Route path="/signup" element={<Signup/>} />
         <Route path="/login" element={<Login/>} />
         <Route path="/profile" element={<UserProfileCompletion/>} />
-        <Route path="/displayprofile" element={<DisplayProfile/>} />
+        <Route path="/displayprofile/:userId" element={<DisplayProfile />} />
+        <Route path="/displayprofile" element={<DisplayProfile />} />
         <Route path="/step1" element={<Step1/>} />
         <Route path="/step2" element={<Step2/>} />
         <Route path="/step3" element={<Step3/>} />

@@ -11,6 +11,7 @@ const EditNameProfilePic = ({ renderComponent, onEditCancel, updateUserProfile }
   });
 
   const [error, setError] = useState(null);
+  const [firstNameError, setfirstNameError] = useState(null);
   const [success, setSuccess] = useState(false);
   const token = localStorage.getItem('token');
 
@@ -54,6 +55,13 @@ const EditNameProfilePic = ({ renderComponent, onEditCancel, updateUserProfile }
 
   const handleSubmit = async (e) => {
       e.preventDefault();
+      // Validation check for 'bio' field
+        if (!formData.first_name.trim()) {
+          setfirstNameError('First name cannot be empty');
+          return;
+        } else {
+          setfirstNameError(null);
+        }
       try {
         const formDataWithProfilePic = new FormData();
 
@@ -95,11 +103,11 @@ const EditNameProfilePic = ({ renderComponent, onEditCancel, updateUserProfile }
     <>
       <div className="edit-profile-modal">
         <div className="edit-profile-container">
-      <button className="close-button" onClick={onEditCancel}>
-            &times;
-          </button>
+      <button className="close-button" onClick={onEditCancel}> &times;</button>
 
-          {error && <p className="edit-profile-error">Error: {error}</p>}
+      {error && <p className="edit-profile-error">Error: {error}</p>}
+      {firstNameError && <p className="edit-profile-error">{firstNameError}</p>}
+
       <h2 className="edit-profile-header">Edit Profile</h2>
       <label className="edit-profile-label">First Name</label>
       <input

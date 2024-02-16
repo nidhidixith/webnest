@@ -2,28 +2,32 @@
 
 .nav-bar {
   border: none;
-  background-color: white; /* Set background color */
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-bar h1{
+  color:gray;
+  font-size:1.3rem;
+}
+
+.gray-link{
+  color:gray;
 }
 
 .nav-bar-content {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: center; /* Vertically center the items */
-  margin-left: 25%; /* Add left margin */
-  margin-right: 25%; /* Add right margin */
-}
-
-
-.nav-bar-content h1 {
-  color: #333;
-  font-size: 24px;
-  margin: 0;
+  color: gray;
 }
 
 .nav-bar button {
   background: none;
   color: gray;
-  font-size: 16px;
+  font-size: 1rem;
   font-family: 'Arial', sans-serif;
   border: none;
   cursor: pointer;
@@ -34,18 +38,31 @@
 }
 
 .nav-bar button:hover {
-  color:black;
-  background:none;
-}
-
-.nav-bar-search-button {
-  display: flex;
-  align-items: center; /* Vertically center the search input */
+  color: black;
+  background: none;
 }
 
 .nav-bar-search-button input {
-  margin-top: 8px; /* Adjust the margin as needed */
-  margin-left:18%;
-  padding: 5px; /* Add padding for better visual appearance */
+  margin-top: 8px;
+  padding: 5px;
 }
 
+.nav-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  margin:10px 15px 0px 0px;
+}
+
+.nav-icon-label {
+  font-size: 0.9rem;
+}
+
+.nav-icon:focus {
+  outline: none;
+}
+
+.nav-icon:hover {
+  color: black;
+}

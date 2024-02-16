@@ -35,6 +35,16 @@ def get_user_posts(request):
     return Response(serializer.data)
 
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_other_users_posts(request):
+    # Fetch posts of other users excluding the logged-in user
+    other_users_posts = UserPosts.objects.exclude(user=request.user)
+    serializer = UserPostsSerializer(other_users_posts, many=True)
+    return Response(serializer.data)
+
+
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def like_post(request, post_id):

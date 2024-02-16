@@ -33,4 +33,4 @@ class UserPostsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserPosts
-        fields = ['user_details','text', 'media_file','created_at']
+        fields = ['id','user_details','text', 'media_file','created_at']

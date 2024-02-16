@@ -11,6 +11,7 @@ const EditBio = ({ renderComponent, onEditCancel, updateUserProfile }) => {
 
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+  const [bioError, setBioError] = useState(null);
   const token = localStorage.getItem('token');
 
   useEffect(() => {
@@ -53,6 +54,13 @@ const EditBio = ({ renderComponent, onEditCancel, updateUserProfile }) => {
 
   const handleSubmit = async (e) => {
       e.preventDefault();
+      // Validation check for 'bio' field
+        if (!formData.bio.trim()) {
+          setBioError('Bio cannot be empty');
+          return;
+        } else {
+          setBioError(null);
+        }
       try {
         const formDataWithProfilePic = new FormData();
 
@@ -67,7 +75,9 @@ const EditBio = ({ renderComponent, onEditCancel, updateUserProfile }) => {
         if (formData.profile_pic instanceof File) {
           formDataWithProfilePic.append('profile_pic', formData.profile_pic);
         }
-
+        for (const pair of formDataWithProfilePic.entries()) {
+          console.log(pair[0], pair[1]);
+        }
         const response = await axios.put(`${API_BASE_URL}edit-profile/bio`, formDataWithProfilePic, {
           headers: {
             Authorization: `Token ${token}`,
@@ -94,10 +104,11 @@ const EditBio = ({ renderComponent, onEditCancel, updateUserProfile }) => {
       <div className="edit-profile-modal">
         <div className="edit-profile-container">
           <button className="close-button" onClick={onEditCancel}>&times;</button>
-
-          {error && <p className="edit-profile-error">Error: {error}</p>}
-
           <h2 className="edit-profile-header">Edit Bio</h2>
+          {error && <p className="edit-bio-error">Error: {error}</p>}
+          {bioError && <p className="edit-bio-error">{bioError}</p>}
+
+
           <label className="edit-profile-label">Bio</label>
           <textarea
             className="edit-bio-input"

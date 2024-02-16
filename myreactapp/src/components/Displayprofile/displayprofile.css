@@ -40,7 +40,7 @@
 }
 
 .follow-button-container button:hover{
-  border:2px solid blue;
+  background-color:#d7d4d9;
 }
 
 .follow-button-container p{
@@ -54,23 +54,7 @@
   margin:0;
 }
 
-.edit-profile-details-button{
-  /*position: absolute;
-  bottom: 2px; */
-  margin-top:auto;
-  margin-right:0px;
-  padding:5px 5px;
-  color:blue;
-  background:white;
-}
 
-.edit-profile-details-button:hover{
-   background:white;
-}
-
-.edit-profile-details-button:focus{
-   outline:none;
-}
 
 /*Bio*/
 
@@ -98,22 +82,6 @@
    font-family:Arial;
 }
 
-.edit-bio-button{
-  /*position: absolute;
-  bottom: 2px; */
-  padding:5px 5px;
-  color:blue;
-  background:white;
-  margin-left:92%;
-}
-
-.edit-bio-button:hover{
-  background:white;
-}
-
-.edit-bio-button:focus{
-   outline:none;
-}
 
 /* External Links*/
 
@@ -132,22 +100,6 @@
    margin-left:1%;
 }
 
-.edit-links-button{
-  /*position: absolute;
-  bottom: 2px; */
-  margin-left:92%;
-  padding:5px 5px;
-  color:blue;
-  background:white;
-}
-
-.edit-links-button:hover{
-  background:white;
-}
-
-.edit-links-button:focus{
-   outline:none;
-}
 /* Interests*/
 
 .interests-container{
@@ -172,22 +124,59 @@
    font-family:Arial;
 }
 
-.edit-interests-button{
+
+
+
+
+.edit-profile-details-button{
   /*position: absolute;
   bottom: 2px; */
+  margin-top:auto;
+  margin-right:0px;
   padding:5px 5px;
-  color:blue;
-  margin-left:92%;
+  color:gray;
   background:white;
 }
 
-.edit-interests-button:hover{
-   background:white;
+.edit-bio-button{
+  /*position: absolute;
+  bottom: 2px; */
+  padding:5px 5px;
+  color:gray;
+  background:white;
+  margin-left:95%;
 }
 
-.edit-interests-button:focus{
-   outline:none;
+.edit-links-button{
+  /*position: absolute;
+  bottom: 2px; */
+  margin-left:95%;
+  padding:5px 5px;
+  color:gray;
+  background:white;
 }
 
+.edit-interests-button{
+  /*position: absolute;
+  bottom: 2px; */
+  padding:0px 5px;
+  color:gray;
+  margin-left:95%;
+  background:white;
+}
 
+.edit-profile-details-button:hover,
+.edit-bio-button:hover,
+.edit-links-button:hover,
+.edit-interests-button:hover {
+  color: black;
+  background: white;
+}
+
+.edit-profile-details-button:focus,
+.edit-bio-button:focus,
+.edit-links-button:focus,
+.edit-interests-button:focus {
+  outline:none;
+}
 

@@ -37,3 +37,11 @@ class UserDetails(models.Model):
     #         img.thumbnail(output_size)
     #         img.save(self.profile_pic.path)
 
+
+class UserConnection(models.Model):
+    follower = models.ForeignKey(User, related_name='following_set', on_delete=models.CASCADE)
+    following = models.ForeignKey(User, related_name='followers_set', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('follower', 'following')
