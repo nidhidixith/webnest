@@ -5,7 +5,6 @@ import axios from 'axios';
 import BaseLayout from '../BaseLayout/baselayout';
 import './displayposts.css';
 import Navbar from '../Navbar/navbar.jsx';
-
 const API_BASE_URL = 'http://localhost:8000/api/';
 
 const calculateElapsedTime = (created_at) => {
@@ -26,7 +25,7 @@ const calculateElapsedTime = (created_at) => {
   }
   };
 
-const PostComponent = ({isOtherUsersPosts=false}) => {
+const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, otherUserId=null}) => {
   const [userData, setUserData] = useState([]);
 
   const navigate = useNavigate();
@@ -58,7 +57,11 @@ const PostComponent = ({isOtherUsersPosts=false}) => {
               Authorization: `Token ${token}`,
             },
           });
-        } else {
+        }
+        else if (isOtherUsersProfile) {
+          response = await axios.get(`${API_BASE_URL}posts/get-other-users-posts-by-id/${otherUserId}/`)
+        }
+        else {
           response = await axios.get(`${API_BASE_URL}posts/get-user-posts/`, {
             headers: {
               Authorization: `Token ${token}`,
@@ -89,7 +92,7 @@ const PostComponent = ({isOtherUsersPosts=false}) => {
               <div className="user-post-top-container">
                   <img src={`http://localhost:8000${post.user_details.profile_pic}`} alt="Profile Picture"/>
                   <div className="user-post-user-details">
-                      <button onClick={() => handleProfileButtonClick(post.user_details.user_id)}>
+                      <button className="user-profile-button" onClick={() => handleProfileButtonClick(post.user_details.user_id)}>
                       <p>{post.user_details.first_name} {post.user_details.last_name}</p></button>
                       <p>{post.elapsed_time || calculateElapsedTime(post.created_at)}</p>
                   </div>

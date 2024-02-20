@@ -13,6 +13,7 @@ const DisplayProfile = () => {
   const { userId } = useParams();
   const userIdInt = parseInt(userId, 10);
   const [isDifferentProfile, setIsDifferentProfile]=useState(true);
+  const [isOtherUsersProfile, setIsOtherUsersProfile]=useState(true);
 
   console.log('UserID from DisplayProfile:',userId);
   console.log('Type of userID',typeof userId);
@@ -28,6 +29,7 @@ const DisplayProfile = () => {
           <BasicDetails isDifferentProfile={isDifferentProfile} userId={userIdInt} />
           <ExternalLinks isDifferentProfile={isDifferentProfile} userId={userIdInt} />
           <Interests isDifferentProfile={isDifferentProfile} userId={userIdInt} />
+          <PostComponent isOtherUsersProfile={isOtherUsersProfile} otherUserId={userIdInt}/>
           </>
         ) : (
           <>

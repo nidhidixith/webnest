@@ -37,6 +37,7 @@ const Paths = () => {
         <Route path="/login" element={<Login/>} />
         <Route path="/profile" element={<UserProfileCompletion/>} />
         <Route path="/displayprofile/:userId" element={<DisplayProfile />} />
+        <Route path="/displayposts/:userId" element={<DisplayPosts />} />
         <Route path="/displayprofile" element={<DisplayProfile />} />
         <Route path="/step1" element={<Step1/>} />
         <Route path="/step2" element={<Step2/>} />

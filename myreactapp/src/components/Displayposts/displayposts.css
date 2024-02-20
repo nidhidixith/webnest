@@ -116,3 +116,18 @@
   font-size:1.3rem;
   font-weight:bold;
 }
+
+.user-post-user-details .user-profile-button{
+  margin:0;
+  padding:0;
+  background:none;
+  color:black;
+}
+
+.user-post-user-details .user-profile-button:hover{
+  color:blue;
+}
+
+.user-post-user-details .user-profile-button:focus{
+  outline:none;
+}

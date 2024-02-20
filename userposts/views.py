@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
+from django.shortcuts import get_object_or_404
 from .models import UserPosts, Likes, Comments
 from .serializers import UserPostsSerializer, LikeSerializer, CommentSerializer
 
@@ -44,6 +45,12 @@ def get_other_users_posts(request):
     return Response(serializer.data)
 
 
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_other_users_posts_by_id(request, user_id):
+    user_posts = UserPosts.objects.filter(user__id=user_id)
+    serializer = UserPostsSerializer(user_posts, many=True)
+    return Response(serializer.data)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
