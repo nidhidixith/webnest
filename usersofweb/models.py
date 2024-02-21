@@ -27,6 +27,12 @@ class UserDetails(models.Model):
     def __str__(self):
         return f'{self.user.username} Profile'
 
+    # def followers_count(self):
+    #     return UserRelationship.objects.filter(following=self.user).count()
+    #
+    # def following_count(self):
+    #     return UserRelationship.objects.filter(follower=self.user).count()
+
     # def save(self):
     #     super().save()
     #
@@ -38,10 +44,9 @@ class UserDetails(models.Model):
     #         img.save(self.profile_pic.path)
 
 
-class UserConnection(models.Model):
-    follower = models.ForeignKey(User, related_name='following_set', on_delete=models.CASCADE)
-    following = models.ForeignKey(User, related_name='followers_set', on_delete=models.CASCADE)
+class UserRelationships(models.Model):
+    follower = models.ForeignKey(User, related_name='followers', on_delete=models.CASCADE)
+    following = models.ForeignKey(User, related_name='following', on_delete=models.CASCADE)
+    follower_count=models.IntegerField(default=0)
+    following_count=models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        unique_together = ('follower', 'following')

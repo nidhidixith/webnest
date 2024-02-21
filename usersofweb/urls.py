@@ -3,7 +3,8 @@ from .views import signup, user_login
 from .views import (complete_user_profile, success, get_user_profile,
                     get_basic_details, get_bio, get_external_links, get_interests,
                     edit_basic_details, edit_bio, edit_external_links, edit_interests,
-                    get_basic_details_by_id,get_bio_by_id,get_external_links_by_id,get_interests_by_id)
+                    get_basic_details_by_id,get_bio_by_id,get_external_links_by_id,get_interests_by_id,
+                    follow_user,check_follow,followers_following_count,current_user_followers_following_count)
 
 urlpatterns = [
     path('signup/', signup, name='signup'),
@@ -29,5 +30,10 @@ urlpatterns = [
     path('get-profile-by-id/bio/<int:user_id>/', get_bio_by_id, name='get-bio-by-id'),
     path('get-profile-by-id/external-links/<int:user_id>/', get_external_links_by_id, name='get-external-links-by-id'),
     path('get-profile-by-id/interests/<int:user_id>/', get_interests_by_id, name='get-interests-by-id'),
+
+    path('follow/<int:user_id>/', follow_user, name='follow_user'),
+    path('check-follow/<int:user_id>/', check_follow, name='check_follow'),
+    path('followers-following-count/<int:user_id>/', followers_following_count, name='followers-following-count'),
+    path('current-user-followers-following-count/', current_user_followers_following_count, name='current-user-followers-following-count'),
 
 ]
