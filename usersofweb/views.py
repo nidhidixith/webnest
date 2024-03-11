@@ -161,7 +161,7 @@ def check_follow(request, user_id):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def followers_following_count(request, user_id):
-    print("HELLO...")
+    #print("HELLO...")
     user_to_check = get_object_or_404(User, id=user_id)
     current_user = request.user
 

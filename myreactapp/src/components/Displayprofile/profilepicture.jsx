@@ -124,11 +124,8 @@ const ProfilePicture = ({ isDifferentProfile = false, userId = null }) => {
           }
         };
         checkIfFollowing();
-
         getFollowersFollowingCount();
-
         } else {
-
           response = await axios.get(`${API_BASE_URL}get-profile/basic-details`, {
             headers: {
               Authorization: `Token ${token}`,
@@ -176,7 +173,7 @@ const ProfilePicture = ({ isDifferentProfile = false, userId = null }) => {
                 ) : (
                   <button onClick={handleUnfollow}>Unfollow</button>
                 )}
-                <p>Followers: {followersCount}, Following: {followingCount}</p>
+                <p>{followersCount} followers <br/> {followingCount} following</p>
               </div>
             </div>
           </div>
@@ -203,7 +200,7 @@ const ProfilePicture = ({ isDifferentProfile = false, userId = null }) => {
                 />
               </div>
               <div className="follow-button-container">
-              <p>Followers: {followersCount}, Following: {followingCount}</p>
+              <p>{followersCount} followers <br/> {followingCount} following</p>
               </div>
             </div>
             <button

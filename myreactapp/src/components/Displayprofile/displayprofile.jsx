@@ -16,9 +16,11 @@ const DisplayProfile = () => {
   const [isOtherUsersProfile, setIsOtherUsersProfile]=useState(true);
 
   console.log('UserID from DisplayProfile:',userId);
-  console.log('Type of userID',typeof userId);
-  console.log('UserIDInt from DisplayProfile:',userIdInt);
-  console.log('Type of userIDInt',typeof userIdInt);
+  console.log('IsDifferentProfile:',isDifferentProfile);
+  console.log('isOtherUsersProfile:',isOtherUsersProfile);
+//   console.log('Type of userID',typeof userId);
+//   console.log('UserIDInt from DisplayProfile:',userIdInt);
+//   console.log('Type of userIDInt',typeof userIdInt);
   return (
     <>
       <Navbar />

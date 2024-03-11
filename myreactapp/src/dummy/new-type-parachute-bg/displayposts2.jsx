@@ -5,30 +5,30 @@ import axios from 'axios';
 import BaseLayout from '../BaseLayout/baselayout';
 import './displayposts.css';
 import Navbar from '../Navbar/navbar.jsx';
-import CommentBox from '../DisplayPosts/commentbox.jsx';
-import CommentModal from '../DisplayPosts/commentmodal.jsx';
-import LikesModal from '../DisplayPosts/likesmodal.jsx';
-import calculateElapsedTime from '../../calculateElapsedTime.jsx';
 const API_BASE_URL = 'http://localhost:8000/api/';
+
+const calculateElapsedTime = (created_at) => {
+  const now = new Date();
+  const createdAtDate = new Date(created_at);
+  const secondsDifference = Math.floor((now - createdAtDate) / 1000);
+
+  if (secondsDifference < 60) {
+    return `${secondsDifference} seconds ago`;
+  } else if (secondsDifference < 3600) {
+    const minutes = Math.floor(secondsDifference / 60);
+    return `${minutes} minutes ago`;
+  } else if (secondsDifference < 86400) {
+    const hours = Math.floor(secondsDifference / 3600);
+    return `${hours} hours ago`;
+  } else {
+    return createdAtDate.toLocaleDateString();
+  }
+  };
 
 const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, otherUserId=null}) => {
   const [userData, setUserData] = useState([]);
-  const [showCommentBox, setShowCommentBox] = useState(null);
-  const [showLikesModal, setShowLikesModal] = useState(false);
-  const [showCommentModal, setShowCommentModal] = useState(false);
-  const [likes, setLikes] = useState([]);
-  const [comments, setComments] = useState([]);
-
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
-
-  const closeLikesModal = () => {
-    setShowLikesModal(false);
-  };
-
-  const closeCommentModal = () => {
-    setShowCommentModal(false);
-  };
 
   const updateElapsedTime = () => {
     setUserData((prevUserData) =>
@@ -66,7 +66,7 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
       } catch (error) {
         console.error('Error handling likes', error);
       }
-      fetchUserData();
+      fetchUpdatedUserData();
     };
 
     const handlePostUnLikes = async (post_id) => {
@@ -86,58 +86,10 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
       } catch (error) {
         console.error('Error handling Unlikes', error);
       }
-      fetchUserData();
+      fetchUpdatedUserData();
     };
 
-    const handleCommentButtonClick = (post_id) => {
-      // Toggle the comment box for the selected post
-      setShowCommentBox((prevPostId) => (prevPostId === post_id ? null : post_id));
-    };
-
-    const handleGetComments = async(post_id) => {
-      const response = await axios.get(`${API_BASE_URL}posts/get-comments/${post_id}/`, {
-        headers: {
-          Authorization: `Token ${token}`,
-        },
-      });
-      //console.log(response.data.comments);
-
-      // Assuming each comment has a 'text' property
-        response.data.comments.forEach((comment, index) => {
-          console.log(`Comment ${index + 1}: ${comment.text}`);
-          console.log('User Details:', comment.user_details.first_name, comment.user_details.last_name); // Display user details if needed
-          // Add more details as needed
-        });
-
-        // Assuming you have a state to set the comments for rendering in the component
-        setComments(response.data.comments);
-        setShowCommentModal(true);
-    }
-
-    const handleGetLikes = async(post_id) => {
-      const response = await axios.get(`${API_BASE_URL}posts/get-likes/${post_id}/`, {
-        headers: {
-          Authorization: `Token ${token}`,
-        },
-      });
-      //console.log(response.data.comments);
-
-      // Assuming each comment has a 'text' property
-        response.data.likes.forEach((like, index) => {
-          console.log(`Like ${index + 1}:`);
-          console.log('User Details:', like.user_details.first_name, like.user_details.last_name); // Display user details if needed
-          // Add more details as needed
-        });
-
-        // Assuming you have a state to set the comments for rendering in the component
-        setLikes(response.data.likes);
-        setShowLikesModal(true);
-    }
-
-    const fetchUserData = async () => {
-           console.log('UserID from PostComponent from useEffect',otherUserId);
-           console.log('Is other Users Posts',isOtherUsersPosts);
-           console.log('Is Other Users Profile',isOtherUsersProfile);
+    const fetchUpdatedUserData = async () => {
            let response;
             if (isOtherUsersPosts) {
               response = await axios.get(`${API_BASE_URL}posts/get-other-users-posts/`, {
@@ -164,16 +116,10 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
                         Authorization: `Token ${token}`,
                       },
                     });
-                    const commentsResponse = await axios.get(`${API_BASE_URL}posts/get-comments/${post.id}/`, {
-                        headers: {
-                          Authorization: `Token ${token}`,
-                        },
-                      });
                     return {
                       ...post,
                       liked: likeCheckResponse.data.is_liked,
                       likeCount: likeCheckResponse.data.like_count,
-                      commentsCount: commentsResponse.data.comment_count,
                     };
                   } catch (error) {
                     console.error('Error checking if liked:', error);
@@ -185,9 +131,48 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
       }
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchUserData = async () => {
       try {
-        fetchUserData();
+//         let response;
+//         if (isOtherUsersPosts) {
+//           response = await axios.get(`${API_BASE_URL}posts/get-other-users-posts/`, {
+//             headers: {
+//               Authorization: `Token ${token}`,
+//             },
+//           });
+//         }
+//         else if (isOtherUsersProfile) {
+//           response = await axios.get(`${API_BASE_URL}posts/get-other-users-posts-by-id/${otherUserId}/`)
+//         }
+//         else {
+//           response = await axios.get(`${API_BASE_URL}posts/get-user-posts/`, {
+//             headers: {
+//               Authorization: `Token ${token}`,
+//             },
+//           });
+//         }
+
+//       const updatedUserData = await Promise.all(
+//         response.data.map(async (post) => {
+//           try {
+//             const likeCheckResponse = await axios.get(`${API_BASE_URL}posts/check-liked/${post.id}/`, {
+//               headers: {
+//                 Authorization: `Token ${token}`,
+//               },
+//             });
+//             return {
+//               ...post,
+//               liked: likeCheckResponse.data.is_liked,
+//               likeCount: likeCheckResponse.data.like_count,
+//             };
+//           } catch (error) {
+//             console.error('Error checking if liked:', error);
+//             return post;
+//           }
+//         })
+//       );
+//      setUserData(updatedUserData);
+        fetchUpdatedUserData();
         // Update elapsed time every minute
         const intervalId = setInterval(updateElapsedTime, 60000);
 
@@ -198,7 +183,7 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
       }
     };
 
-    fetchData();
+    fetchUserData();
   }, [token, isOtherUsersPosts]);
 
   return (
@@ -233,16 +218,7 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
                     )}
                   </div>
                 )}
-
-                {post.likeCount && <button onClick={() => handleGetLikes(post.id)}>{post.likeCount} like/s</button>}
-                {post.commentsCount === 0 ? (
-                  <p>No comments yet</p>
-                ) : (
-                  <button onClick={() => handleGetComments(post.id)}>
-                    {post.commentsCount} comment/s
-                  </button>
-                )}
-
+                {post.likeCount && <p>{post.likeCount} likes</p>}
                 <div className="user-post-button-container">
 
                    {!post.liked ? (
@@ -251,24 +227,14 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
                       <button className="like-button-liked" onClick={() => handlePostUnLikes(post.id)}>Like</button>
                     )}
 
-                   <button onClick={() => handleCommentButtonClick(post.id)}>Comment</button>
-
+                   <button>Comment</button>
                    <button>Share</button>
                    <button>Repost</button>
                 </div>
-                {showCommentBox === post.id && (
-                  // Render the comment box for the selected post
-                  <CommentBox post_id={post.id} fetchUserData={fetchUserData} />
-                )}
-
               </div>
           </div>
         ))}
       </div>
-
-      {showCommentModal && <CommentModal comments={comments} closeCommentModal={closeCommentModal} handleProfileButtonClick={handleProfileButtonClick}/>}
-      {showLikesModal && <LikesModal likes={likes} closeLikesModal={closeLikesModal} handleProfileButtonClick={handleProfileButtonClick}/>}
-
     </>
   );
 };

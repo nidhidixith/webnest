@@ -86,16 +86,30 @@
   border-top: 1px solid #d7d4d9;
 }
 
-.user-post-bottom-container button {
+.user-post-bottom-container button,
+.like-button-default
+{
   border: none;
   padding: 10px;
   text-align: center;
   cursor: pointer;
-  background: white;
+  background-color: white;
   color: black;
   flex-grow: 1;
   outline: none;
 }
+
+.user-post-bottom-container .like-button-liked {
+
+  background-color: #1e6deb;
+  color: white;
+
+}
+
+.user-post-bottom-container .like-button-liked:hover {
+  background-color: #094bb5;
+}
+
 
 .user-post-bottom-container button:hover {
   background: #c8c2cc;

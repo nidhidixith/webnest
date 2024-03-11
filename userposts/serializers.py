@@ -15,14 +15,17 @@ from usersofweb.serializers import UserFullNameSerializer
 #        fields = ['username', 'text', 'media_file']
 
 class LikeSerializer(serializers.ModelSerializer):
+    user_details = UserFullNameSerializer(source='user.userdetails', read_only=True)
+
     class Meta:
         model = Likes
-        fields = '__all__'
+        fields = ['user_details']
 
 class CommentSerializer(serializers.ModelSerializer):
+    user_details = UserFullNameSerializer(source='user.userdetails', read_only=True)
     class Meta:
         model = Comments
-        fields = '__all__'
+        fields = ['user_details','text','created_at']
 
 class UserPostsSerializer(serializers.ModelSerializer):
     #likes = LikeSerializer(many=True, read_only=True)
