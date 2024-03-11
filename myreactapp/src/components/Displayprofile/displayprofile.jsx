@@ -15,9 +15,19 @@ const DisplayProfile = () => {
   const [isDifferentProfile, setIsDifferentProfile]=useState(true);
   const [isOtherUsersProfile, setIsOtherUsersProfile]=useState(true);
 
-  console.log('UserID from DisplayProfile:',userId);
-  console.log('IsDifferentProfile:',isDifferentProfile);
-  console.log('isOtherUsersProfile:',isOtherUsersProfile);
+//   console.log('UserID from DisplayProfile:',userId);
+//   console.log('IsDifferentProfile:',isDifferentProfile);
+//   console.log('isOtherUsersProfile:',isOtherUsersProfile);
+
+//   const resetModalStates = () => {
+//     // Add any other modal states you might need to reset here
+//     setShowLikesModal(false);
+//     setShowCommentModal(false);
+//   };
+//
+//   useEffect(() => {
+//     resetModalStates();
+//   }, [userId]); // Reset modal states when userId changes
 //   console.log('Type of userID',typeof userId);
 //   console.log('UserIDInt from DisplayProfile:',userIdInt);
 //   console.log('Type of userIDInt',typeof userIdInt);

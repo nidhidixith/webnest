@@ -42,6 +42,8 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
   const handleProfileButtonClick = (userId) => {
     // Navigate to DisplayProfile with the post.id
       console.log('UserID from PostComponent',userId);
+      setShowLikesModal(false);
+      setShowCommentModal(false);
       navigate(`/displayprofile/${userId}`);
     };
 
@@ -104,8 +106,8 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
 
       // Assuming each comment has a 'text' property
         response.data.comments.forEach((comment, index) => {
-          console.log(`Comment ${index + 1}: ${comment.text}`);
-          console.log('User Details:', comment.user_details.first_name, comment.user_details.last_name); // Display user details if needed
+//           console.log(`Comment ${index + 1}: ${comment.text}`);
+//           console.log('User Details:', comment.user_details.first_name, comment.user_details.last_name); // Display user details if needed
           // Add more details as needed
         });
 
@@ -135,9 +137,9 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
     }
 
     const fetchUserData = async () => {
-           console.log('UserID from PostComponent from useEffect',otherUserId);
-           console.log('Is other Users Posts',isOtherUsersPosts);
-           console.log('Is Other Users Profile',isOtherUsersProfile);
+//            console.log('UserID from PostComponent from useEffect',otherUserId);
+//            console.log('Is other Users Posts',isOtherUsersPosts);
+//            console.log('Is Other Users Profile',isOtherUsersProfile);
            let response;
             if (isOtherUsersPosts) {
               response = await axios.get(`${API_BASE_URL}posts/get-other-users-posts/`, {
@@ -185,6 +187,13 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
       }
 
   useEffect(() => {
+    // Reset state when navigating to a different user's profile
+    setUserData([]);
+    setShowCommentBox(null);
+    setShowLikesModal(false);
+    setShowCommentModal(false);
+    setLikes([]);
+    setComments([]);
     const fetchData = async () => {
       try {
         fetchUserData();
@@ -199,7 +208,7 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
     };
 
     fetchData();
-  }, [token, isOtherUsersPosts]);
+  }, [token, isOtherUsersPosts, isOtherUsersProfile, otherUserId]);
 
   return (
     <>
