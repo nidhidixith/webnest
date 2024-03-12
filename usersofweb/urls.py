@@ -4,7 +4,8 @@ from .views import (complete_user_profile, success, get_user_profile,
                     get_basic_details, get_bio, get_external_links, get_interests,
                     edit_basic_details, edit_bio, edit_external_links, edit_interests,
                     get_basic_details_by_id,get_bio_by_id,get_external_links_by_id,get_interests_by_id,
-                    follow_user,check_follow,followers_following_count,current_user_followers_following_count)
+                    follow_user,check_follow,followers_following_count,current_user_followers_following_count,
+                    get_followers_list,get_following_list)
 
 urlpatterns = [
     path('signup/', signup, name='signup'),
@@ -36,4 +37,6 @@ urlpatterns = [
     path('followers-following-count/<int:user_id>/', followers_following_count, name='followers-following-count'),
     path('current-user-followers-following-count/', current_user_followers_following_count, name='current-user-followers-following-count'),
 
+    path('get-followers-list/', get_followers_list, name='get-followers-list'),
+    path('get-following-list/', get_following_list, name='get-following-list'),
 ]

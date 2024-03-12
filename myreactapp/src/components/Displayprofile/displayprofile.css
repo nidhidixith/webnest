@@ -177,3 +177,33 @@
   outline:none;
 }
 
+.display-profile-top-buttons {
+    display: flex;
+    width: 100%;
+    background-color:white;
+}
+
+.display-profile-top-buttons button {
+    flex-grow: 1;
+    width: 25%;
+    margin: 0;
+    padding: 8px;
+    box-sizing: border-box;
+    color:blue;
+    background-color:white;
+    transition: box-shadow 0.3s ease-in-out, border 0.3s ease-in-out;
+}
+
+.display-profile-top-buttons button:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.display-profile-top-buttons button.clicked {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    color:black;
+}
+
+.display-profile-top-buttons button:focus {
+    outline:none;
+}
+

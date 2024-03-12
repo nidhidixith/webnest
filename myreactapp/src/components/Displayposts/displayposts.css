@@ -80,6 +80,31 @@
   margin-bottom: 1%;
 }
 
+.like-comments-display{
+  margin:0;
+  padding:0;
+  display:flex;
+}
+
+.like-comments-display .like-count{
+  margin:0;
+  padding:0;
+  text-align:left;
+}
+
+.like-comments-display .comments-count{
+  margin:0;
+  padding:0;
+  text-align:right;
+}
+
+.like-comments-display .like-count-button:hover,
+.like-comments-display .comment-count-button:hover {
+  background-color: white;
+  color: blue;
+}
+
+
 .user-post-button-container {
   display: flex;
   margin: 0 1%;
@@ -100,10 +125,8 @@
 }
 
 .user-post-bottom-container .like-button-liked {
-
   background-color: #1e6deb;
   color: white;
-
 }
 
 .user-post-bottom-container .like-button-liked:hover {

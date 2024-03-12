@@ -7,7 +7,8 @@ from rest_framework.permissions import AllowAny
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from .serializers import (UserProfileSerializer, EditProfileSerializer, BasicDetailsSerializer,
-                          BioSerializer,ExternalLinksSerializer,InterestsSerializer, UserRelationshipsSerializer)
+                          BioSerializer,ExternalLinksSerializer,InterestsSerializer, UserRelationshipsSerializer,
+                          FollowersListSerializer,FollowingListSerializer)
 from rest_framework.authtoken.models import Token
 from .models import UserDetails,UserRelationships
 from django.db.models import F
@@ -337,3 +338,41 @@ def edit_interests(request):
         print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_followers_list(request):
+    user = request.user  # Assuming you are using TokenAuthentication or another authentication method
+
+    # Retrieve followers of the user
+    followers_query = UserRelationships.objects.filter(following=user)
+    followers = followers_query.select_related('follower__userdetails')
+
+    serializer = FollowersListSerializer(followers, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_following_list(request):
+    user = request.user  # Assuming you are using TokenAuthentication or another authentication method
+
+    # Retrieve followers of the user
+    following_query = UserRelationships.objects.filter(follower=user)
+    following = following_query.select_related('following__userdetails')
+
+    serializer = FollowingListSerializer(following, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+# @api_view(['GET'])
+# @permission_classes([IsAuthenticated])
+# def current_user_followers_following_count(request):
+#     print("HELLO...I AM HERE")
+#     current_user = request.user
+#
+#     followers_count = UserRelationships.objects.filter(following=current_user).count()
+#     print(followers_count)
+#     following_count = UserRelationships.objects.filter(follower=current_user).count()
+#     print(following_count)
+#
+#     return Response({'followers_count': followers_count, 'following_count': following_count})

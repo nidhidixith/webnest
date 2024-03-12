@@ -6,6 +6,7 @@ import BasicDetails from './basicdetails.jsx';
 import ExternalLinks from './external_links.jsx';
 import Interests from './interests.jsx';
 import PostComponent from '../Displayposts/displayposts.jsx';
+import DisplayNetwork from '../DisplayNetwork/displaynetwork.jsx';
 import '../Displayposts/displayposts.css';
 import { useParams } from 'react-router-dom';
 
@@ -19,18 +20,16 @@ const DisplayProfile = () => {
 //   console.log('IsDifferentProfile:',isDifferentProfile);
 //   console.log('isOtherUsersProfile:',isOtherUsersProfile);
 
-//   const resetModalStates = () => {
-//     // Add any other modal states you might need to reset here
-//     setShowLikesModal(false);
-//     setShowCommentModal(false);
-//   };
-//
-//   useEffect(() => {
-//     resetModalStates();
-//   }, [userId]); // Reset modal states when userId changes
 //   console.log('Type of userID',typeof userId);
 //   console.log('UserIDInt from DisplayProfile:',userIdInt);
 //   console.log('Type of userIDInt',typeof userIdInt);
+  const [activeTab, setActiveTab] = useState('my-profile'); // Default active tab
+  const [isClicked, setIsClicked] = useState(false);
+
+  const handleButtonClick = (tab) => {
+    setActiveTab(tab);
+    setIsClicked(!isClicked);
+  };
   return (
     <>
       <Navbar />
@@ -45,14 +44,35 @@ const DisplayProfile = () => {
           </>
         ) : (
           <>
-            <ProfilePicture />
-            <BasicDetails />
-            <ExternalLinks />
-            <Interests />
-            <div className="user-posts-heading">
-              <h2>Posts</h2>
+            <div className="display-profile-top-buttons">
+                <button className={activeTab === 'my-profile' ? 'clicked' : ''}
+                    onClick={() => handleButtonClick('my-profile')}>My Profile
+                </button>
+
+              <button className={activeTab === 'my-posts' ? 'clicked' : ''}
+                   onClick={() => handleButtonClick('my-posts')}>My Posts
+              </button>
+
+              <button className={activeTab === 'my-network' ? 'clicked' : ''}
+                  onClick={() => handleButtonClick('my-network')}>My Network
+              </button>
+
+              <button className={activeTab === 'settings' ? 'clicked' : ''}
+                  onClick={() => handleButtonClick('settings')}>Settings
+              </button>
             </div>
-            <PostComponent />
+
+            {activeTab === 'my-profile' &&
+            <>
+                <ProfilePicture />
+                <BasicDetails />
+                <ExternalLinks />
+                <Interests />
+            </>
+            }
+
+            {activeTab === 'my-posts' && <PostComponent />}
+            {activeTab === 'my-network' && <DisplayNetwork />}
           </>
         )}
       </div>

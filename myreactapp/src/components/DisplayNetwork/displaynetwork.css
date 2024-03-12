@@ -1,0 +1,89 @@
+.outer-my-network-container{
+   border:1px solid #d7d4d9;
+   margin-bottom:2%;
+   background-color:white;
+   border-radius:10px;
+   margin:0;
+}
+
+.followers-or-following-container{
+   display: flex;
+    width: 100%;
+    background-color:white;
+}
+
+.followers-or-following-container button {
+    flex-grow: 1;
+    width: 50%;
+    margin: 0;
+    padding: 8px;
+    box-sizing: border-box;
+    color:blue;
+    background-color:white;
+    transition: box-shadow 0.3s ease-in-out, border 0.3s ease-in-out;
+}
+
+.followers-or-following-container button:hover {
+    background: #c8c2cc;
+    color: black;
+}
+
+.followers-or-following-container button.clicked {
+    background: #c8c2cc;
+    color:black;
+}
+
+.followers-or-following-container button:focus {
+    outline:none;
+}
+
+.followers-or-following-list{
+  padding:10px;
+}
+
+.each-follower,.each-following {
+  display: flex;
+}
+
+.each-follower img,
+.each-following img {
+  margin-right: 3%;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.follower-details, {
+.following-details, {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    border-radius: 15px;
+    padding:10px;
+    margin-bottom:2%;
+}
+
+.user-profile-button{
+  margin: 0;
+  padding:0;
+  text-align: left;
+  background:none;
+  color:black;
+}
+
+.user-profile-button p{
+  margin: 0;
+  padding:0;
+  font-size:14px;
+  text-align: left;
+  font-weight:bold;
+}
+
+.user-profile-button:hover{
+  color:blue;
+  background:none;
+}
+
+.user-profile-button:focus{
+  outline:none;
+}

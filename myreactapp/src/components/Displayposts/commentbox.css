@@ -1,0 +1,33 @@
+.comment-box {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+/* Style for the textarea */
+.comment-box textarea {
+  margin:auto;
+  width: 90%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: vertical; /* Allow vertical resizing of the textarea */
+}
+
+/* Style for the post button */
+.comment-box button {
+  border: none;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  background: #c8c2cc;
+  color: black;
+  flex-grow: 1;
+  outline: none;
+}
+
+.comment-box button:not([disabled]):hover {
+  background-color: #1e6deb;
+  color: white;
+}

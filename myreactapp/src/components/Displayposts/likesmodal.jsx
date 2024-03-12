@@ -10,10 +10,9 @@ const LikesModal = ({ likes, closeLikesModal, handleProfileButtonClick }) => {
                 </button>
 
                 <p><b>Likes</b></p>
-                {/* Render comments here */}
                 {likes.map((like, index) => (
                     <div className="each-like" key={index}>
-                        {/* Render each comment */}
+                        {/* Render each like */}
                         <img src={`http://localhost:8000${like.user_details.profile_pic}`} alt="Profile Picture"/>
                             <div className="likes-details">
                                 <button className="user-profile-button" onClick={() => handleProfileButtonClick(like.user_details.user_id)}>

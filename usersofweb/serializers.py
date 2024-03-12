@@ -84,3 +84,21 @@ class UserFullNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserDetails
         fields = ['user_id','first_name', 'last_name', 'profile_pic']
+
+class FollowersListSerializer(serializers.ModelSerializer):
+    follower_details = UserFullNameSerializer(source='follower.userdetails', read_only=True)
+    user_id = serializers.ReadOnlyField(source='follower.id')
+
+
+    class Meta:
+        model = UserRelationships
+        fields = ['user_id','follower', 'follower_details']
+
+class FollowingListSerializer(serializers.ModelSerializer):
+    following_details = UserFullNameSerializer(source='following.userdetails', read_only=True)
+    user_id = serializers.ReadOnlyField(source='following.id')
+
+
+    class Meta:
+        model = UserRelationships
+        fields = ['user_id','following', 'following_details']

@@ -108,10 +108,8 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
         response.data.comments.forEach((comment, index) => {
 //           console.log(`Comment ${index + 1}: ${comment.text}`);
 //           console.log('User Details:', comment.user_details.first_name, comment.user_details.last_name); // Display user details if needed
-          // Add more details as needed
         });
 
-        // Assuming you have a state to set the comments for rendering in the component
         setComments(response.data.comments);
         setShowCommentModal(true);
     }
@@ -122,24 +120,17 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
           Authorization: `Token ${token}`,
         },
       });
-      //console.log(response.data.comments);
 
-      // Assuming each comment has a 'text' property
         response.data.likes.forEach((like, index) => {
           console.log(`Like ${index + 1}:`);
           console.log('User Details:', like.user_details.first_name, like.user_details.last_name); // Display user details if needed
-          // Add more details as needed
         });
 
-        // Assuming you have a state to set the comments for rendering in the component
         setLikes(response.data.likes);
         setShowLikesModal(true);
     }
 
     const fetchUserData = async () => {
-//            console.log('UserID from PostComponent from useEffect',otherUserId);
-//            console.log('Is other Users Posts',isOtherUsersPosts);
-//            console.log('Is Other Users Profile',isOtherUsersProfile);
            let response;
             if (isOtherUsersPosts) {
               response = await axios.get(`${API_BASE_URL}posts/get-other-users-posts/`, {
@@ -243,28 +234,31 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
                   </div>
                 )}
 
-                {post.likeCount && <button onClick={() => handleGetLikes(post.id)}>{post.likeCount} like/s</button>}
-                {post.commentsCount === 0 ? (
-                  <p>No comments yet</p>
-                ) : (
-                  <button onClick={() => handleGetComments(post.id)}>
-                    {post.commentsCount} comment/s
-                  </button>
-                )}
+                <div className="like-comments-display">
+                  {post.likeCount && <button className="like-count-button" onClick={() => handleGetLikes(post.id)}>
+                    <p className="like-count">{post.likeCount} likes</p>
+                  </button>}
+                  {post.commentsCount === 0 ? (
+                    <p></p>
+                  ) : (
+                    <button className="comment-count-button" onClick={() => handleGetComments(post.id)}>
+                      <p className="comments-count">{post.commentsCount} comments</p>
+                    </button>
+                  )}
+                </div>
+
 
                 <div className="user-post-button-container">
-
                    {!post.liked ? (
                       <button className="like-button-default" onClick={() => handlePostLikes(post.id)}>Like</button>
                     ) : (
                       <button className="like-button-liked" onClick={() => handlePostUnLikes(post.id)}>Like</button>
                     )}
-
                    <button onClick={() => handleCommentButtonClick(post.id)}>Comment</button>
-
                    <button>Share</button>
                    <button>Repost</button>
                 </div>
+
                 {showCommentBox === post.id && (
                   // Render the comment box for the selected post
                   <CommentBox post_id={post.id} fetchUserData={fetchUserData} />
