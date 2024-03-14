@@ -1,18 +1,21 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import UserPosts, Likes, Comments
+from .models import UserPosts, Likes, Comments, Repost
 from usersofweb.serializers import UserFullNameSerializer
 
 #from usersofweb.models import UserDetails
 
 
-# class UserPostsSerializer(serializers.ModelSerializer):
-#    username = serializers.CharField(source='user.username', read_only=True)
-#    media_file = serializers.FileField(use_url=True, required=False)
-#
-#    class Meta:
-#        model = UserPosts
-#        fields = ['username', 'text', 'media_file']
+class UserPostsSerializer(serializers.ModelSerializer):
+    #likes = LikeSerializer(many=True, read_only=True)
+    #comments = CommentSerializer(many=True, read_only=True)
+    #username = serializers.CharField(source='user.username', read_only=True)
+    user_details = UserFullNameSerializer(source='user.userdetails', read_only=True)
+    media_file = serializers.FileField(use_url=True, required=False)
+
+    class Meta:
+        model = UserPosts
+        fields = ['id','user_details','text', 'media_file','created_at']
 
 class LikeSerializer(serializers.ModelSerializer):
     user_details = UserFullNameSerializer(source='user.userdetails', read_only=True)
@@ -27,13 +30,17 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comments
         fields = ['user_details','text','created_at']
 
-class UserPostsSerializer(serializers.ModelSerializer):
-    #likes = LikeSerializer(many=True, read_only=True)
-    #comments = CommentSerializer(many=True, read_only=True)
-    #username = serializers.CharField(source='user.username', read_only=True)
+class RepostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Repost
+        fields = ['id','original_post', 'text']
+
+class GetRepostSerializer(serializers.ModelSerializer):
     user_details = UserFullNameSerializer(source='user.userdetails', read_only=True)
-    media_file = serializers.FileField(use_url=True, required=False)
+    original_post_details = UserPostsSerializer(source='original_post', read_only=True)  # Adjust this line
+
 
     class Meta:
-        model = UserPosts
-        fields = ['id','user_details','text', 'media_file','created_at']
+        model = Repost
+        fields = ['id','user_details','original_post_details', 'text','created_at']
+

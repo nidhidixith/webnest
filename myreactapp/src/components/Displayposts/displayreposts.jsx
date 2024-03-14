@@ -12,7 +12,7 @@ import RepostModal from '../DisplayPosts/repostmodal.jsx';
 import calculateElapsedTime from '../../calculateElapsedTime.jsx';
 const API_BASE_URL = 'http://localhost:8000/api/';
 
-const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, otherUserId=null}) => {
+const DisplayReposts = ({isOtherUsersPosts=false, isOtherUsersProfile=false, otherUserId=null}) => {
   const [userData, setUserData] = useState([]);
   const [showCommentBox, setShowCommentBox] = useState(null);
   const [showLikesModal, setShowLikesModal] = useState(false);
@@ -145,23 +145,23 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
 
     const fetchUserData = async () => {
       let response;
-      if (isOtherUsersPosts) {
-        response = await axios.get(`${API_BASE_URL}posts/get-other-users-posts/`, {
-          headers: {
-            Authorization: `Token ${token}`,
-          },
-        });
-      } else if (isOtherUsersProfile) {
-        response = await axios.get(`${API_BASE_URL}posts/get-other-users-posts-by-id/${otherUserId}/`);
-      } else {
-        response = await axios.get(`${API_BASE_URL}posts/get-user-posts/`, {
-          headers: {
-            Authorization: `Token ${token}`,
-          },
-        });
-      }
+//       if (isOtherUsersPosts) {
+//         response = await axios.get(`${API_BASE_URL}posts/get-other-users-posts/`, {
+//           headers: {
+//             Authorization: `Token ${token}`,
+//           },
+//         });
+//       } else if (isOtherUsersProfile) {
+//         response = await axios.get(`${API_BASE_URL}posts/get-other-users-posts-by-id/${otherUserId}/`);
+//       } else {
+//         response = await axios.get(`${API_BASE_URL}posts/get-user-posts/`, {
+//           headers: {
+//             Authorization: `Token ${token}`,
+//           },
+//         });
+//       }
 
-      const postsData = response.data;
+//       const postsData = response.data;
 
       // Fetch reposts separately
       const repostsResponse = await axios.get(`${API_BASE_URL}posts/get-reposts/`, {
@@ -173,19 +173,14 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
       console.log("Repost data",repostsData);
 
       repostsData.forEach((repost,index)=>{
+          console.log('User Details:', repost.user_details.first_name, repost.user_details.last_name);
           console.log(`Repost text ${index + 1}: ${repost.text}`)
           console.log('Post Details:', repost.original_post_details.text, repost.original_post_details.media_file);
-          console.log('User Details:', repost.user_details.first_name, repost.user_details.last_name);
+          console.log('Original User Details:', repost.original_post_details.user_details.first_name, repost.original_post_details.user_details.last_name);
       });
-//       // Merge original posts and reposts into one array
-//       const allPosts = [...postsData, ...repostsData];
-//
-//       // Sort posts by date and time
-//       allPosts.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-//
-//       // Now update the state with sorted posts data
+
       const updatedUserData = await Promise.all(
-        postsData.map(async (post) => {
+        repostsData.map(async (post) => {
           try {
             const likeCheckResponse = await axios.get(`${API_BASE_URL}posts/check-liked/${post.id}/`, {
               headers: {
@@ -248,25 +243,32 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
                   <img src={`http://localhost:8000${post.user_details.profile_pic}`} alt="Profile Picture"/>
                   <div className="user-post-user-details">
                       <button className="user-profile-button" onClick={() => handleProfileButtonClick(post.user_details.user_id)}>
-                      <p>{post.user_details.first_name} {post.user_details.last_name}</p></button>
+                      <p>{post.user_details.first_name} {post.user_details.last_name} reposted this</p></button>
                       <p>{post.elapsed_time || calculateElapsedTime(post.created_at)}</p>
+                      <p>{post.text}</p>
                   </div>
-
+              </div>
+              <div className="user-post-top-container">
+                  <img src={`http://localhost:8000${post.original_post_details.user_details.profile_pic}`} alt="Profile Picture"/>
+                  <div className="user-post-user-details">
+                      <button className="user-profile-button" onClick={() => handleProfileButtonClick(post.original_post_details.user_details.user_id)}>
+                      <p>{post.original_post_details.user_details.first_name} {post.original_post_details.user_details.last_name} </p></button>
+                  </div>
               </div>
               <div className="user-post-bottom-container">
-                <p>{post.text}</p>
+                <p>{post.original_post_details.text}</p>
 
-                {post.media_file && (
+                {post.original_post_details.media_file && (
                   <div className="user-post-media">
-                    {post.media_file.endsWith('.mp4') ||
-                    post.media_file.endsWith('.mov') ||
-                    post.media_file.endsWith('.avi') ? (
+                    {post.original_post_details.media_file.endsWith('.mp4') ||
+                    post.original_post_details.media_file.endsWith('.mov') ||
+                    post.original_post_details.media_file.endsWith('.avi') ? (
                       <video controls width="300">
-                        <source src={`http://localhost:8000${post.media_file}`} type="video/mp4" />
+                        <source src={`http://localhost:8000${post.original_post_details.media_file}`} type="video/mp4" />
                         Your browser does not support the video tag.
                       </video>
                     ) : (
-                      <img src={`http://localhost:8000${post.media_file}`} alt="User Media" width="300px" height="300px" />
+                      <img src={`http://localhost:8000${post.original_post_details.media_file}`} alt="User Media" width="300px" height="300px" />
                     )}
                   </div>
                 )}
@@ -314,4 +316,4 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
   );
 };
 
-export default PostComponent;
+export default DisplayReposts;

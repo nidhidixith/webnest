@@ -364,15 +364,3 @@ def get_following_list(request):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-# @api_view(['GET'])
-# @permission_classes([IsAuthenticated])
-# def current_user_followers_following_count(request):
-#     print("HELLO...I AM HERE")
-#     current_user = request.user
-#
-#     followers_count = UserRelationships.objects.filter(following=current_user).count()
-#     print(followers_count)
-#     following_count = UserRelationships.objects.filter(follower=current_user).count()
-#     print(following_count)
-#
-#     return Response({'followers_count': followers_count, 'following_count': following_count})

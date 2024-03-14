@@ -43,3 +43,9 @@ class Comments(models.Model):
     text = models.TextField(max_length=500)
     created_at = models.DateTimeField(auto_now_add=True)
 
+
+class Repost(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    original_post = models.ForeignKey(UserPosts, on_delete=models.CASCADE)
+    text = models.TextField(max_length=500, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)

@@ -29,7 +29,7 @@
 }
 
 .followers-or-following-container button.clicked {
-    background: #c8c2cc;
+    background: #ccc;
     color:black;
 }
 
@@ -38,11 +38,12 @@
 }
 
 .followers-or-following-list{
-  padding:10px;
+  padding:20px;
 }
 
 .each-follower,.each-following {
   display: flex;
+  margin-bottom:10px;
 }
 
 .each-follower img,
@@ -53,14 +54,24 @@
   border-radius: 50%;
 }
 
-.follower-details, {
-.following-details, {
+.follower-details{
     display: flex;
     align-items: flex-start;
-    flex-direction: column;
     border-radius: 15px;
     padding:10px;
     margin-bottom:2%;
+    width:100%;
+    justify-content: space-between;
+}
+
+.following-details{
+    display: flex;
+    align-items: flex-start;
+    border-radius: 15px;
+    padding:10px;
+    margin-bottom:2%;
+    width:100%;
+    justify-content: space-between;
 }
 
 .user-profile-button{
@@ -69,6 +80,22 @@
   text-align: left;
   background:none;
   color:black;
+}
+
+.follow-or-unfollow-button{
+  margin: 0;
+  padding:0;
+  background:none;
+  color:blue;
+}
+
+.follow-or-unfollow-button:hover{
+  background:none;
+  color:blue;
+}
+
+.follow-or-unfollow-button:focus{
+  outline:none;
 }
 
 .user-profile-button p{
@@ -87,3 +114,4 @@
 .user-profile-button:focus{
   outline:none;
 }
+

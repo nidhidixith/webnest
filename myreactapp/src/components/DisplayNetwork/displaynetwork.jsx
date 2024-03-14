@@ -12,6 +12,7 @@ const DisplayNetwork = () => {
     setIsClicked(!isClicked);
   };
 
+
   return(
     <div className="outer-my-network-container">
 

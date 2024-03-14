@@ -6,6 +6,7 @@ import BasicDetails from './basicdetails.jsx';
 import ExternalLinks from './external_links.jsx';
 import Interests from './interests.jsx';
 import PostComponent from '../Displayposts/displayposts.jsx';
+import DisplayReposts from '../Displayposts/displayreposts.jsx';
 import DisplayNetwork from '../DisplayNetwork/displaynetwork.jsx';
 import '../Displayposts/displayposts.css';
 import { useParams } from 'react-router-dom';
@@ -16,13 +17,6 @@ const DisplayProfile = () => {
   const [isDifferentProfile, setIsDifferentProfile]=useState(true);
   const [isOtherUsersProfile, setIsOtherUsersProfile]=useState(true);
 
-//   console.log('UserID from DisplayProfile:',userId);
-//   console.log('IsDifferentProfile:',isDifferentProfile);
-//   console.log('isOtherUsersProfile:',isOtherUsersProfile);
-
-//   console.log('Type of userID',typeof userId);
-//   console.log('UserIDInt from DisplayProfile:',userIdInt);
-//   console.log('Type of userIDInt',typeof userIdInt);
   const [activeTab, setActiveTab] = useState('my-profile'); // Default active tab
   const [isClicked, setIsClicked] = useState(false);
 
@@ -71,7 +65,13 @@ const DisplayProfile = () => {
             </>
             }
 
-            {activeTab === 'my-posts' && <PostComponent />}
+            {activeTab === 'my-posts' &&
+            <>
+                <PostComponent />
+                <DisplayReposts/>
+            </>
+            }
+
             {activeTab === 'my-network' && <DisplayNetwork />}
           </>
         )}
