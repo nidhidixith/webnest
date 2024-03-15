@@ -239,23 +239,30 @@ const DisplayReposts = ({isOtherUsersPosts=false, isOtherUsersProfile=false, oth
         {userData.map((post) => (
           <div key={post.id} className="user-post">
               <button className="user-post-close-button">&times;</button>
+              <div className="user-post-top-outer-container">
               <div className="user-post-top-container">
                   <img src={`http://localhost:8000${post.user_details.profile_pic}`} alt="Profile Picture"/>
                   <div className="user-post-user-details">
                       <button className="user-profile-button" onClick={() => handleProfileButtonClick(post.user_details.user_id)}>
-                      <p>{post.user_details.first_name} {post.user_details.last_name} reposted this</p></button>
+                      <p>{post.user_details.first_name} {post.user_details.last_name} </p></button> reposted this
                       <p>{post.elapsed_time || calculateElapsedTime(post.created_at)}</p>
-                      <p>{post.text}</p>
+
                   </div>
               </div>
-              <div className="user-post-top-container">
+              <p className="repost-text">{post.text}</p>
+              </div>
+
+              <div className="user-post-bottom-container">
+
+              <div className="user-repost-bottom-container">
+                <div className="user-post-top-container">
                   <img src={`http://localhost:8000${post.original_post_details.user_details.profile_pic}`} alt="Profile Picture"/>
                   <div className="user-post-user-details">
                       <button className="user-profile-button" onClick={() => handleProfileButtonClick(post.original_post_details.user_details.user_id)}>
                       <p>{post.original_post_details.user_details.first_name} {post.original_post_details.user_details.last_name} </p></button>
                   </div>
-              </div>
-              <div className="user-post-bottom-container">
+                </div>
+
                 <p>{post.original_post_details.text}</p>
 
                 {post.original_post_details.media_file && (
@@ -272,7 +279,7 @@ const DisplayReposts = ({isOtherUsersPosts=false, isOtherUsersProfile=false, oth
                     )}
                   </div>
                 )}
-
+              </div>
                 <div className="like-comments-display">
                   {post.likeCount && <button className="like-count-button" onClick={() => handleGetLikes(post.id)}>
                     <p className="like-count">{post.likeCount} likes</p>
