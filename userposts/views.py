@@ -179,3 +179,19 @@ def get_reposts(request):
     print("2")
     print(serializer)
     return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_other_users_reposts(request):
+    # Fetch posts of other users excluding the logged-in user
+    other_users_reposts = Repost.objects.exclude(user=request.user)
+    serializer = GetRepostSerializer(other_users_reposts, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_other_users_reposts_by_id(request, user_id):
+    user_reposts = Repost.objects.filter(user__id=user_id)
+    serializer = GetRepostSerializer(user_reposts, many=True)
+    return Response(serializer.data)

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import BaseLayout from '../BaseLayout/baselayout';
-import './displayposts.css';
+import './displayreposts.css';
 import Navbar from '../Navbar/navbar.jsx';
 import CommentBox from '../DisplayPosts/commentbox.jsx';
 import CommentModal from '../DisplayPosts/commentmodal.jsx';
@@ -112,10 +112,10 @@ const DisplayReposts = ({isOtherUsersPosts=false, isOtherUsersProfile=false, oth
       //console.log(response.data.comments);
 
       // Assuming each comment has a 'text' property
-        response.data.comments.forEach((comment, index) => {
-//           console.log(`Comment ${index + 1}: ${comment.text}`);
-//           console.log('User Details:', comment.user_details.first_name, comment.user_details.last_name); // Display user details if needed
-        });
+//         response.data.comments.forEach((comment, index) => {
+// //           console.log(`Comment ${index + 1}: ${comment.text}`);
+// //           console.log('User Details:', comment.user_details.first_name, comment.user_details.last_name); // Display user details if needed
+//         });
 
         setComments(response.data.comments);
         setShowCommentModal(true);
@@ -172,12 +172,12 @@ const DisplayReposts = ({isOtherUsersPosts=false, isOtherUsersProfile=false, oth
       const repostsData = repostsResponse.data;
       console.log("Repost data",repostsData);
 
-      repostsData.forEach((repost,index)=>{
-          console.log('User Details:', repost.user_details.first_name, repost.user_details.last_name);
-          console.log(`Repost text ${index + 1}: ${repost.text}`)
-          console.log('Post Details:', repost.original_post_details.text, repost.original_post_details.media_file);
-          console.log('Original User Details:', repost.original_post_details.user_details.first_name, repost.original_post_details.user_details.last_name);
-      });
+//       repostsData.forEach((repost,index)=>{
+//           console.log('User Details:', repost.user_details.first_name, repost.user_details.last_name);
+//           console.log(`Repost text ${index + 1}: ${repost.text}`)
+//           console.log('Post Details:', repost.original_post_details.text, repost.original_post_details.media_file);
+//           console.log('Original User Details:', repost.original_post_details.user_details.first_name, repost.original_post_details.user_details.last_name);
+//       });
 
       const updatedUserData = await Promise.all(
         repostsData.map(async (post) => {

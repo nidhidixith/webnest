@@ -137,13 +137,12 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
         setShowLikesModal(true);
     }
 
-
-  const handleRepostButtonClick = (postId) => {
+    const handleRepostButtonClick = (postId) => {
     setShowRepostModal(true);
     setSelectedPostIdForRepost(postId);
   }
 
-    const fetchUserData = async () => {
+    const fetchUserPostComponentData = async () =>{
       let response;
       if (isOtherUsersPosts) {
         response = await axios.get(`${API_BASE_URL}posts/get-other-users-posts/`, {
@@ -161,31 +160,44 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
         });
       }
 
-      const postsData = response.data;
+      const postComponentData = response.data;
+      return postComponentData;
+    }
 
-      // Fetch reposts separately
-      const repostsResponse = await axios.get(`${API_BASE_URL}posts/get-reposts/`, {
-        headers: {
-          Authorization: `Token ${token}`,
-        },
-      });
-      const repostsData = repostsResponse.data;
-      console.log("Repost data",repostsData);
+    const fetchUserRePostComponentData = async () =>{
+      let response;
+      if (isOtherUsersPosts) {
+        response = await axios.get(`${API_BASE_URL}posts/get-other-users-reposts/`, {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        });
+      } else if (isOtherUsersProfile) {
+        response = await axios.get(`${API_BASE_URL}posts/get-other-users-reposts-by-id/${otherUserId}/`);
+      } else {
+        response = await axios.get(`${API_BASE_URL}posts/get-reposts/`, {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        });
+      }
+      const repostComponentData = response.data;
+      return repostComponentData;
+    }
 
-      repostsData.forEach((repost,index)=>{
-          console.log(`Repost text ${index + 1}: ${repost.text}`)
-          console.log('Post Details:', repost.original_post_details.text, repost.original_post_details.media_file);
-          console.log('User Details:', repost.user_details.first_name, repost.user_details.last_name);
-      });
-//       // Merge original posts and reposts into one array
-//       const allPosts = [...postsData, ...repostsData];
-//
-//       // Sort posts by date and time
-//       allPosts.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-//
-//       // Now update the state with sorted posts data
+    const fetchUserData = async () => {
+     const postsData = await fetchUserPostComponentData();
+     const repostsData = await fetchUserRePostComponentData();
+
+    // Merge posts and reposts into a single array
+    const allUserData = [...postsData, ...repostsData];
+
+    // Sort merged array based on timestamp
+    allUserData.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+    // Fetch additional data for each post/repost
       const updatedUserData = await Promise.all(
-        postsData.map(async (post) => {
+        allUserData.map(async (post) => {
           try {
             const likeCheckResponse = await axios.get(`${API_BASE_URL}posts/check-liked/${post.id}/`, {
               headers: {
@@ -209,9 +221,8 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
           }
         })
       );
-
-  setUserData(updatedUserData);
-};
+      setUserData(updatedUserData);
+    };
 
 
   useEffect(() => {
@@ -240,37 +251,54 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
 
   return (
     <>
-      <div className="user-post-container">
-        {userData.map((post) => (
-          <div key={post.id} className="user-post">
-              <button className="user-post-close-button">&times;</button>
+  <div className="user-post-container">
+    {userData.map((post) => (
+      <div key={post.id} className="user-post">
+        {post.original_post_details ? (
+          // Render repost
+          <>
+            <button className="user-post-close-button">&times;</button>
+              <div className="user-post-top-outer-container">
               <div className="user-post-top-container">
                   <img src={`http://localhost:8000${post.user_details.profile_pic}`} alt="Profile Picture"/>
                   <div className="user-post-user-details">
                       <button className="user-profile-button" onClick={() => handleProfileButtonClick(post.user_details.user_id)}>
-                      <p>{post.user_details.first_name} {post.user_details.last_name}</p></button>
+                      <p>{post.user_details.first_name} {post.user_details.last_name} </p></button> reposted this
                       <p>{post.elapsed_time || calculateElapsedTime(post.created_at)}</p>
+
                   </div>
-
               </div>
-              <div className="user-post-bottom-container">
-                <p>{post.text}</p>
+              <p className="repost-text">{post.text}</p>
+              </div>
 
-                {post.media_file && (
+              <div className="user-post-bottom-container">
+
+              <div className="user-repost-bottom-container">
+                <div className="user-post-top-container">
+                  <img src={`http://localhost:8000${post.original_post_details.user_details.profile_pic}`} alt="Profile Picture"/>
+                  <div className="user-post-user-details">
+                      <button className="user-profile-button" onClick={() => handleProfileButtonClick(post.original_post_details.user_details.user_id)}>
+                      <p>{post.original_post_details.user_details.first_name} {post.original_post_details.user_details.last_name} </p></button>
+                  </div>
+                </div>
+
+                <p>{post.original_post_details.text}</p>
+
+                {post.original_post_details.media_file && (
                   <div className="user-post-media">
-                    {post.media_file.endsWith('.mp4') ||
-                    post.media_file.endsWith('.mov') ||
-                    post.media_file.endsWith('.avi') ? (
+                    {post.original_post_details.media_file.endsWith('.mp4') ||
+                    post.original_post_details.media_file.endsWith('.mov') ||
+                    post.original_post_details.media_file.endsWith('.avi') ? (
                       <video controls width="300">
-                        <source src={`http://localhost:8000${post.media_file}`} type="video/mp4" />
+                        <source src={`http://localhost:8000${post.original_post_details.media_file}`} type="video/mp4" />
                         Your browser does not support the video tag.
                       </video>
                     ) : (
-                      <img src={`http://localhost:8000${post.media_file}`} alt="User Media" width="300px" height="300px" />
+                      <img src={`http://localhost:8000${post.original_post_details.media_file}`} alt="User Media" width="300px" height="300px" />
                     )}
                   </div>
                 )}
-
+              </div>
                 <div className="like-comments-display">
                   {post.likeCount && <button className="like-count-button" onClick={() => handleGetLikes(post.id)}>
                     <p className="like-count">{post.likeCount} likes</p>
@@ -302,15 +330,77 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
                 )}
 
               </div>
-          </div>
-        ))}
+
+          </>
+        ) : (
+          // Render post
+          <>
+            <button className="user-post-close-button">&times;</button>
+            <div className="user-post-top-container">
+              <img src={`http://localhost:8000${post.user_details.profile_pic}`} alt="Profile Picture"/>
+              <div className="user-post-user-details">
+                <button className="user-profile-button" onClick={() => handleProfileButtonClick(post.user_details.user_id)}>
+                  <p>{post.user_details.first_name} {post.user_details.last_name}</p>
+                </button>
+                <p>{post.elapsed_time || calculateElapsedTime(post.created_at)}</p>
+              </div>
+            </div>
+            <div className="user-post-bottom-container">
+              <p>{post.text}</p>
+              {post.media_file && (
+                <div className="user-post-media">
+                  {post.media_file.endsWith('.mp4') ||
+                  post.media_file.endsWith('.mov') ||
+                  post.media_file.endsWith('.avi') ? (
+                    <video controls width="300">
+                      <source src={`http://localhost:8000${post.media_file}`} type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
+                  ) : (
+                    <img src={`http://localhost:8000${post.media_file}`} alt="User Media" width="300px" height="300px" />
+                  )}
+                </div>
+              )}
+              <div className="like-comments-display">
+                {post.likeCount && (
+                  <button className="like-count-button" onClick={() => handleGetLikes(post.id)}>
+                    <p className="like-count">{post.likeCount} likes</p>
+                  </button>
+                )}
+                {post.commentsCount === 0 ? (
+                  <p></p>
+                ) : (
+                  <button className="comment-count-button" onClick={() => handleGetComments(post.id)}>
+                    <p className="comments-count">{post.commentsCount} comments</p>
+                  </button>
+                )}
+              </div>
+              <div className="user-post-button-container">
+                {!post.liked ? (
+                  <button className="like-button-default" onClick={() => handlePostLikes(post.id)}>Like</button>
+                ) : (
+                  <button className="like-button-liked" onClick={() => handlePostUnLikes(post.id)}>Like</button>
+                )}
+                <button onClick={() => handleCommentButtonClick(post.id)}>Comment</button>
+                <button>Share</button>
+                <button onClick={() => handleRepostButtonClick(post.id)}>Repost</button>
+              </div>
+              {showCommentBox === post.id && (
+                // Render the comment box for the selected post
+                <CommentBox post_id={post.id} fetchUserData={fetchUserData}/>
+              )}
+            </div>
+          </>
+        )}
       </div>
+    ))}
+  </div>
+  {showCommentModal && <CommentModal comments={comments} closeCommentModal={closeCommentModal} handleProfileButtonClick={handleProfileButtonClick}/>}
+  {showLikesModal && <LikesModal likes={likes} closeLikesModal={closeLikesModal} handleProfileButtonClick={handleProfileButtonClick}/>}
+  {showRepostModal && <RepostModal selectedPostIdForRepost={selectedPostIdForRepost} closeRepostModal={closeRepostModal} />}
 
-      {showCommentModal && <CommentModal comments={comments} closeCommentModal={closeCommentModal} handleProfileButtonClick={handleProfileButtonClick}/>}
-      {showLikesModal && <LikesModal likes={likes} closeLikesModal={closeLikesModal} handleProfileButtonClick={handleProfileButtonClick}/>}
-      {showRepostModal && <RepostModal selectedPostIdForRepost={selectedPostIdForRepost} closeRepostModal={closeRepostModal} />}
+</>
 
-    </>
   );
 };
 

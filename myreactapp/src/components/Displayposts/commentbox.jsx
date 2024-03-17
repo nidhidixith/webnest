@@ -30,6 +30,7 @@ const CommentBox = ({ post_id, fetchUserData }) => {
       console.log(response.data);
       fetchUserData();
       setCommentText('');
+      alert('Comment posted');
     } catch (error) {
       console.error('Error submitting comment:', error);
     }

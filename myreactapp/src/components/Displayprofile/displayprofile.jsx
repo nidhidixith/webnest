@@ -68,7 +68,6 @@ const DisplayProfile = () => {
             {activeTab === 'my-posts' &&
             <>
                 <PostComponent />
-                <DisplayReposts/>
             </>
             }
 
