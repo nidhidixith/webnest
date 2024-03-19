@@ -6,7 +6,6 @@ import BasicDetails from './basicdetails.jsx';
 import ExternalLinks from './external_links.jsx';
 import Interests from './interests.jsx';
 import PostComponent from '../Displayposts/displayposts.jsx';
-import DisplayReposts from '../Displayposts/displayreposts.jsx';
 import DisplayNetwork from '../DisplayNetwork/displaynetwork.jsx';
 import '../Displayposts/displayposts.css';
 import { useParams } from 'react-router-dom';

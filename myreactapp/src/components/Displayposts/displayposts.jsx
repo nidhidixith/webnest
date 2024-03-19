@@ -21,6 +21,23 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
   const [likes, setLikes] = useState([]);
   const [comments, setComments] = useState([]);
   const [selectedPostIdForRepost, setSelectedPostIdForRepost] = useState(null);
+  const [showMore, setShowMore] = useState({});
+  const [showMoreRepost, setShowMoreRepost] = useState({});
+
+    const handleShowMoreLessButtonClick = (postId, isRepost = false) => {
+        if (isRepost) {
+            setShowMoreRepost(prevState => ({
+                ...prevState,
+                [postId]: !prevState[postId]
+            }));
+        } else {
+            setShowMore(prevState => ({
+                ...prevState,
+                [postId]: !prevState[postId]
+            }));
+        }
+    };
+
 
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
@@ -209,11 +226,17 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
                 Authorization: `Token ${token}`,
               },
             });
+            const repostResponse = await axios.get(`${API_BASE_URL}posts/get-reposts-count/${post.id}/`, {
+              headers: {
+                Authorization: `Token ${token}`,
+              },
+            });
             return {
               ...post,
               liked: likeCheckResponse.data.is_liked,
               likeCount: likeCheckResponse.data.like_count,
               commentsCount: commentsResponse.data.comment_count,
+              repostsCount: repostResponse.data.reposts_count,
             };
           } catch (error) {
             console.error('Error checking if liked:', error);
@@ -268,7 +291,19 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
 
                   </div>
               </div>
-              <p className="repost-text">{post.text}</p>
+
+
+              <div className="post-text-container">
+                    {post.text.length>250 ? (
+                        <p>{showMore[post.id] ? post.text : post.text.substring(0, 250)}
+                        <button onClick={() => handleShowMoreLessButtonClick(post.id)}>
+                          {showMore[post.id] ? "Show less" : "Show more"}
+                        </button></p>
+                        ):(
+                        <p>{post.text}</p>
+                     )}
+                </div>
+
               </div>
 
               <div className="user-post-bottom-container">
@@ -282,7 +317,17 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
                   </div>
                 </div>
 
-                <p>{post.original_post_details.text}</p>
+                <div className="post-text-container">
+                    {post.original_post_details.text.length > 250 ? (
+                        <p>{showMoreRepost[post.id] ? post.original_post_details.text : post.original_post_details.text.substring(0, 250)}
+                            <button onClick={() => handleShowMoreLessButtonClick(post.id, true)}>
+                                {showMoreRepost[post.id] ? "Show less" : "Show more"}
+                            </button>
+                        </p>
+                    ) : (
+                        <p>{post.original_post_details.text}</p>
+                    )}
+                </div>
 
                 {post.original_post_details.media_file && (
                   <div className="user-post-media">
@@ -300,18 +345,20 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
                 )}
               </div>
                 <div className="like-comments-display">
-                  {post.likeCount && <button className="like-count-button" onClick={() => handleGetLikes(post.id)}>
+                {post.likeCount && (
+                  <button className="like-count-button" onClick={() => handleGetLikes(post.id)}>
                     <p className="like-count">{post.likeCount} likes</p>
-                  </button>}
-                  {post.commentsCount === 0 ? (
-                    <p></p>
-                  ) : (
-                    <button className="comment-count-button" onClick={() => handleGetComments(post.id)}>
-                      <p className="comments-count">{post.commentsCount} comments</p>
-                    </button>
-                  )}
-                </div>
-
+                  </button>
+                )}
+                {post.commentsCount !== 0 && (
+                 <button className="comment-count-button" onClick={() => handleGetComments(post.id)}>
+                    <p className="comments-count">{post.commentsCount} comments</p>
+                  </button>
+                )}
+                {post.repostsCount !== 0 && (
+                    <p className="reposts-count">{post.repostsCount} reposts</p>
+                )}
+              </div>
 
                 <div className="user-post-button-container">
                    {!post.liked ? (
@@ -346,7 +393,16 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
               </div>
             </div>
             <div className="user-post-bottom-container">
-              <p>{post.text}</p>
+                <div className="post-text-container">
+                    {post.text.length>250 ? (
+                        <p>{showMore[post.id] ? post.text : post.text.substring(0, 250)}
+                        <button onClick={() => handleShowMoreLessButtonClick(post.id)}>
+                          {showMore[post.id] ? "Show less" : "Show more"}
+                        </button></p>
+                        ):(
+                        <p>{post.text}</p>
+                     )}
+                </div>
               {post.media_file && (
                 <div className="user-post-media">
                   {post.media_file.endsWith('.mp4') ||
@@ -367,12 +423,13 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
                     <p className="like-count">{post.likeCount} likes</p>
                   </button>
                 )}
-                {post.commentsCount === 0 ? (
-                  <p></p>
-                ) : (
-                  <button className="comment-count-button" onClick={() => handleGetComments(post.id)}>
+                {post.commentsCount !== 0 && (
+                 <button className="comment-count-button" onClick={() => handleGetComments(post.id)}>
                     <p className="comments-count">{post.commentsCount} comments</p>
                   </button>
+                )}
+                {post.repostsCount !== 0 && (
+                    <p className="reposts-count">{post.repostsCount} reposts</p>
                 )}
               </div>
               <div className="user-post-button-container">

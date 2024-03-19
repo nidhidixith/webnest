@@ -84,6 +84,7 @@
   margin:0;
   padding:0;
   display:flex;
+  align-items: center; /* Vertically center items */
 }
 
 .like-comments-display .like-count{
@@ -98,12 +99,11 @@
   text-align:right;
 }
 
-.like-comments-display .like-count-button:hover,
-.like-comments-display .comment-count-button:hover {
+.like-comments-display  .like-count-button:hover,
+.like-comments-display  .comment-count-button:hover {
   background-color: white;
   color: blue;
 }
-
 
 .user-post-button-container {
   display: flex;
@@ -166,5 +166,70 @@
 }
 
 .user-post-user-details .user-profile-button:focus{
+  outline:none;
+}
+
+
+.user-repost-bottom-container{
+  margin:2%;
+  padding:10px;
+  border:1px solid #ccc;
+  border-radius:10px;
+}
+
+.user-post-bottom-container .user-repost-bottom-container .user-post-top-container {
+  display: flex;
+  margin: 0 3% 3%; /* Margin shorthand */
+}
+
+.user-repost-bottom-container .user-post-top-container img{
+   width: 40px;
+  height: 40px;
+}
+
+.user-repost-bottom-container .user-post-top-container .user-post-user-details p {
+  margin: 0;
+  padding: 0;
+}
+
+.user-repost-bottom-container .user-post-top-container .user-post-user-details p:first-child {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.user-repost-bottom-container .user-post-top-container .user-post-user-details p:nth-child(2) {
+  font-size: 12px;
+}
+
+.user-post-top-outer-container .post-text-container p{
+  text-align:justify;
+  margin:2% 3% 1%;
+}
+
+.user-repost-bottom-container .user-post-top-container .user-post-user-details .user-profile-button:hover{
+  background:none;
+}
+
+.post-text-container {
+  text-align:justify;
+}
+
+.post-text-container {
+  text-align:justify;
+}
+
+.post-text-container button{
+  color:blue;
+  background-color:white;
+  font-style:italic;
+  margin-left:10px;
+  padding:0;
+}
+
+.post-text-container button:hover{
+  background-color:white;
+}
+
+.post-text-container button:focus{
   outline:none;
 }

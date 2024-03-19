@@ -152,6 +152,24 @@ def get_comments(request, post_id):
 
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_reposts_count(request, post_id):
+    try:
+        post = UserPosts.objects.get(pk=post_id)
+
+    except UserPosts.DoesNotExist:
+        return Response({"detail": "Post not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    reposts = Repost.objects.filter(original_post=post)
+    reposts_count = reposts.count()
+    if request.method == 'GET':
+        response_data = {
+            'reposts_count': reposts_count,
+        }
+        return Response(response_data)
+
+    return Response(status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
