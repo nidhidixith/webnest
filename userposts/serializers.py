@@ -33,7 +33,7 @@ class CommentSerializer(serializers.ModelSerializer):
 class RepostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Repost
-        fields = ['id','original_post', 'text']
+        fields = ['id', 'original_post', 'parent_repost', 'text']
 
 class GetRepostSerializer(serializers.ModelSerializer):
     user_details = UserFullNameSerializer(source='user.userdetails', read_only=True)
@@ -42,5 +42,5 @@ class GetRepostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Repost
-        fields = ['id','user_details','original_post_details', 'text','created_at']
+        fields = ['id','user_details','original_post_details', 'parent_repost','text','created_at']
 

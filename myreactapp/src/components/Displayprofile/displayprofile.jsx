@@ -7,6 +7,7 @@ import ExternalLinks from './external_links.jsx';
 import Interests from './interests.jsx';
 import PostComponent from '../Displayposts/displayposts.jsx';
 import DisplayNetwork from '../DisplayNetwork/displaynetwork.jsx';
+import DisplayReposts from '../Displayposts/display_reposts.jsx';
 import '../Displayposts/displayposts.css';
 import { useParams } from 'react-router-dom';
 
@@ -67,6 +68,7 @@ const DisplayProfile = () => {
             {activeTab === 'my-posts' &&
             <>
                 <PostComponent />
+
             </>
             }
 

@@ -79,7 +79,7 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
       navigate(`/displayprofile/${userId}`);
     };
 
-   const handlePostLikes = async (post_id,content_type) => {
+   const handlePostLikes = async (post_id) => {
       // Update 'liked' state for the specific post
       setUserData((prevUserData) =>
         prevUserData.map((post) =>
@@ -94,9 +94,6 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
             headers: {
               Authorization: `Token ${token}`,
             },
-            params: {
-                content_type: content_type
-              }
           }
         );
         console.log(response.data.detail);
@@ -106,7 +103,7 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
       fetchUserData();
     };
 
-    const handlePostUnLikes = async (post_id,content_type) => {
+    const handlePostUnLikes = async (post_id) => {
       // Update 'liked' state for the specific post
       setUserData((prevUserData) =>
         prevUserData.map((post) =>
@@ -118,9 +115,6 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
           headers: {
             Authorization: `Token ${token}`,
           },
-          params: {
-                content_type: content_type
-              }
         });
         console.log(response.data.detail);
       } catch (error) {
@@ -134,14 +128,11 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
       setShowCommentBox((prevPostId) => (prevPostId === post_id ? null : post_id));
     };
 
-    const handleGetComments = async(post_id, content_type) => {
+    const handleGetComments = async(post_id) => {
       const response = await axios.get(`${API_BASE_URL}posts/get-comments/${post_id}/`, {
         headers: {
           Authorization: `Token ${token}`,
         },
-        params: {
-                content_type: content_type
-              }
       });
       //console.log(response.data.comments);
 
@@ -155,15 +146,11 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
         setShowCommentModal(true);
     }
 
-    const handleGetLikes = async(post_id, content_type) => {
-      //const content_type = post.original_post_details ? 'repost' : 'post';
+    const handleGetLikes = async(post_id) => {
       const response = await axios.get(`${API_BASE_URL}posts/get-likes/${post_id}/`, {
         headers: {
           Authorization: `Token ${token}`,
         },
-        params: {
-                content_type: content_type
-              }
       });
 
         response.data.likes.forEach((like, index) => {
@@ -175,15 +162,10 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
         setShowLikesModal(true);
     }
 
-    const handleRepostButtonClick = (postId,original_post_id=null) => {
+    const handleRepostButtonClick = (postId) => {
         console.log('Post ID:',postId);
         setShowRepostModal(true);
-        if(original_post_id){
-          setSelectedPostIdForRepost(original_post_id);
-        }
-        else{
-          setSelectedPostIdForRepost(postId);
-        }
+        setSelectedPostIdForRepost(postId);
     }
 
     const fetchUserPostComponentData = async () =>{
@@ -230,8 +212,8 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
     }
 
     const fetchUserData = async () => {
-    const postsData = await fetchUserPostComponentData();
-    const repostsData = await fetchUserRePostComponentData();
+     const postsData = await fetchUserPostComponentData();
+     const repostsData = await fetchUserRePostComponentData();
 
     // Merge posts and reposts into a single array
     const allUserData = [...postsData, ...repostsData];
@@ -240,92 +222,45 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
     allUserData.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
     // Fetch additional data for each post/repost
-    const updatedUserData = await Promise.all(
+      const updatedUserData = await Promise.all(
         allUserData.map(async (post) => {
-            const content_type = post.original_post_details ? 'repost' : 'post';
-            console.log('Content-type:', content_type);
-            try {
-                let likeCheckResponse, commentsResponse, repostResponse;
-
-                if (content_type === 'repost') {
-                    // Make only two API calls for reposts
-                    likeCheckResponse = await axios.get(`${API_BASE_URL}posts/check-liked/${post.id}/`, {
-                        headers: {
-                            Authorization: `Token ${token}`,
-                        },
-                        params: {
-                            content_type: content_type
-                        }
-                    });
-                    commentsResponse = await axios.get(`${API_BASE_URL}posts/get-comments/${post.id}/`, {
-                        headers: {
-                            Authorization: `Token ${token}`,
-                        },
-                        params: {
-                            content_type: content_type
-                        }
-                    });
-                } else if (content_type === 'post') {
-                    // Make all three API calls for posts
-                    likeCheckResponse = await axios.get(`${API_BASE_URL}posts/check-liked/${post.id}/`, {
-                        headers: {
-                            Authorization: `Token ${token}`,
-                        },
-                        params: {
-                            content_type: content_type
-                        }
-                    });
-                    commentsResponse = await axios.get(`${API_BASE_URL}posts/get-comments/${post.id}/`, {
-                        headers: {
-                            Authorization: `Token ${token}`,
-                        },
-                        params: {
-                            content_type: content_type
-                        }
-                    });
-                    repostResponse = await axios.get(`${API_BASE_URL}posts/get-reposts-count/${post.id}/`, {
-                        headers: {
-                            Authorization: `Token ${token}`,
-                        },
-                        params: {
-                            content_type: content_type
-                        }
-                    });
-                }
-
-                // Return data based on content_type
-                if (content_type === 'repost') {
-                    return {
-                        ...post,
-                        liked: likeCheckResponse.data.is_liked,
-                        likeCount: likeCheckResponse.data.like_count,
-                        commentsCount: commentsResponse.data.comment_count,
-                    };
-                } else if (content_type === 'post') {
-                    return {
-                        ...post,
-                        liked: likeCheckResponse.data.is_liked,
-                        likeCount: likeCheckResponse.data.like_count,
-                        commentsCount: commentsResponse.data.comment_count,
-                        repostsCount: repostResponse.data.reposts_count,
-                    };
-                }
-            } catch (error) {
-                console.error('Error in promises:', error);
-                return post;
-            }
+          try {
+            const likeCheckResponse = await axios.get(`${API_BASE_URL}posts/check-liked/${post.id}/`, {
+              headers: {
+                Authorization: `Token ${token}`,
+              },
+            });
+            const commentsResponse = await axios.get(`${API_BASE_URL}posts/get-comments/${post.id}/`, {
+              headers: {
+                Authorization: `Token ${token}`,
+              },
+            });
+            const repostResponse = await axios.get(`${API_BASE_URL}posts/get-reposts-count/${post.id}/`, {
+              headers: {
+                Authorization: `Token ${token}`,
+              },
+            });
+            return {
+              ...post,
+              liked: likeCheckResponse.data.is_liked,
+              likeCount: likeCheckResponse.data.like_count,
+              commentsCount: commentsResponse.data.comment_count,
+              repostsCount: repostResponse.data.reposts_count,
+            };
+          } catch (error) {
+            console.error('Error checking if liked:', error);
+            return post;
+          }
         })
-    );
-    setUserData(updatedUserData);
-};
-
+      );
+      setUserData(updatedUserData);
+    };
 
 
   useEffect(() => {
     // Reset state when navigating to a different user's profile
     setUserData([]);
     setShowCommentBox(null);
-    setSelectedPostIdForRepost(null);
     setShowLikesModal(false);
     setShowCommentModal(false);
     setLikes([]);
@@ -422,34 +357,34 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
 
                 <div className="like-comments-display">
                     {post.likeCount && (
-                    <button className="like-count-button" onClick={() => handleGetLikes(post.id,'repost')}>
+                    <button className="like-count-button" onClick={() => handleGetLikes(post.id)}>
                         <p className="like-count">{post.likeCount} likes</p>
                     </button>
                     )}
                     {post.commentsCount !== 0 && (
-                    <button className="comment-count-button" onClick={() => handleGetComments(post.id, 'repost')}>
+                    <button className="comment-count-button" onClick={() => handleGetComments(post.id)}>
                         <p className="comments-count">{post.commentsCount} comments</p>
                     </button>
                     )}
-{/*                     {post.repostsCount !== 0 && ( */}
-{/*                         <p className="reposts-count">{post.repostsCount} reposts</p> */}
-{/*                     )} */}
+                    {post.repostsCount !== 0 && (
+                        <p className="reposts-count">{post.repostsCount} reposts</p>
+                    )}
                 </div>
 
                 <div className="user-post-button-container">
                     {!post.liked ? (
-                        <button className="like-button-default" onClick={() => handlePostLikes(post.id,'repost')}>Like</button>
+                        <button className="like-button-default" onClick={() => handlePostLikes(post.id)}>Like</button>
                     ) : (
-                        <button className="like-button-liked" onClick={() => handlePostUnLikes(post.id,'repost')}>Like</button>
+                        <button className="like-button-liked" onClick={() => handlePostUnLikes(post.id)}>Like</button>
                     )}
-                    <button onClick={() => handleCommentButtonClick(post.id,'repost')}>Comment</button>
+                    <button onClick={() => handleCommentButtonClick(post.id)}>Comment</button>
                     <button>Share</button>
-                    <button onClick={() => handleRepostButtonClick(post.id,post.original_post_details.id)}>Repost</button>
+                    <button onClick={() => handleRepostButtonClick(post.id)}>Repost</button>
                 </div>
 
                 {showCommentBox === post.id && (
                 // Render the comment box for the selected post
-                <CommentBox post_id={post.id} post={post} fetchUserData={fetchUserData} />
+                <CommentBox post_id={post.id} fetchUserData={fetchUserData} />
                 )}
                 </div>
             </>
@@ -503,12 +438,12 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
 
             <div className="like-comments-display">
                 {post.likeCount && (
-                    <button className="like-count-button" onClick={() => handleGetLikes(post.id,'post')}>
+                    <button className="like-count-button" onClick={() => handleGetLikes(post.id)}>
                         <p className="like-count">{post.likeCount} likes</p>
                     </button>
                 )}
                 {post.commentsCount !== 0 && (
-                    <button className="comment-count-button" onClick={() => handleGetComments(post.id,'post')}>
+                    <button className="comment-count-button" onClick={() => handleGetComments(post.id)}>
                         <p className="comments-count">{post.commentsCount} comments</p>
                     </button>
                 )}
@@ -519,17 +454,17 @@ const PostComponent = ({isOtherUsersPosts=false, isOtherUsersProfile=false, othe
 
             <div className="user-post-button-container">
                 {!post.liked ? (
-                    <button className="like-button-default" onClick={() => handlePostLikes(post.id,'post')}>Like</button>
+                    <button className="like-button-default" onClick={() => handlePostLikes(post.id)}>Like</button>
                 ) : (
-                    <button className="like-button-liked" onClick={() => handlePostUnLikes(post.id,'post')}>Like</button>
+                    <button className="like-button-liked" onClick={() => handlePostUnLikes(post.id)}>Like</button>
                 )}
-                <button onClick={() => handleCommentButtonClick(post.id,'post')}>Comment</button>
+                <button onClick={() => handleCommentButtonClick(post.id)}>Comment</button>
                 <button>Share</button>
                 <button onClick={() => handleRepostButtonClick(post.id)}>Repost</button>
             </div>
             {showCommentBox === post.id && (
             // Render the comment box for the selected post
-            <CommentBox post_id={post.id} post={post} fetchUserData={fetchUserData}/>
+            <CommentBox post_id={post.id} fetchUserData={fetchUserData}/>
             )}
             </div>
             </>
