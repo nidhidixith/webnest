@@ -83,7 +83,6 @@ const FollowersList = ({ isDifferentProfile = false, userId = null }) => {
         console.error('Error fetching followers list:', error);
       }
     };
-
     fetchFollowersList();
   }, [isDifferentProfile, token]);
 

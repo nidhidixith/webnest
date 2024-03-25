@@ -7,9 +7,7 @@
   margin-top:15%;
   border: 3px solid rgba(0, 0, 0, 0);
   border-radius: 5%;
-  /*background-color: rgba(0, 0, 0, 0.4);*/
   background-color:white;
-  /*background: linear-gradient(rgba(0,0,0,0.8),rgba(0,0,0,0.8)),url('../../assets/bkgimage.png') no-repeat center center fixed;*/
   box-shadow: 0 20px 30px rgba(0, 0, 0, 0.7); /* Add box shadow */
 }
 
@@ -68,8 +66,6 @@
 }
 
 .login-group input:hover{
-  /*background-color:rgba(0, 0, 0, 0.7);*/
-
   transform: scale(1.01); /* Scale the input element on hover */
 }
 

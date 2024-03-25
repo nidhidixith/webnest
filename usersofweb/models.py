@@ -27,11 +27,6 @@ class UserDetails(models.Model):
     def __str__(self):
         return f'{self.user.username} Profile'
 
-    # def followers_count(self):
-    #     return UserRelationship.objects.filter(following=self.user).count()
-    #
-    # def following_count(self):
-    #     return UserRelationship.objects.filter(follower=self.user).count()
 
     # def save(self):
     #     super().save()

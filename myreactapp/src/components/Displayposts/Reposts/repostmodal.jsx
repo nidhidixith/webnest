@@ -27,7 +27,6 @@ const RepostModal = ({ selectedPostIdForRepost, closeRepostModal }) => {
     }
   }
 
-
     return (
         <div className="repost-modal">
             <div className="repost-modal-content">

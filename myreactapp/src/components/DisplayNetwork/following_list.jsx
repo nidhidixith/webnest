@@ -71,7 +71,6 @@ const FollowingList = ({ isDifferentProfile = false, userId = null }) => {
         let response;
         if (isDifferentProfile) {
           console.log('different profile');
-          //response = await axios.get(`${API_BASE_URL}get-profile-by-id/bio/${userId}/`);
         } else {
           const token = localStorage.getItem('token');
           response = await axios.get(`${API_BASE_URL}get-following-list`, {

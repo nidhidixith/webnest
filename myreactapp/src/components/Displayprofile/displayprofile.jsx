@@ -16,7 +16,6 @@ const DisplayProfile = () => {
   const userIdInt = parseInt(userId, 10);
   const [isDifferentProfile, setIsDifferentProfile]=useState(true);
   const [isOtherUsersProfile, setIsOtherUsersProfile]=useState(true);
-
   const [activeTab, setActiveTab] = useState('my-profile'); // Default active tab
   const [isClicked, setIsClicked] = useState(false);
 

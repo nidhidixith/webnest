@@ -25,7 +25,6 @@ const ProfilePicture = ({ isDifferentProfile = false, userId = null }) => {
     console.log(newRating);
   };
 
-
   const handleEditClick = (component) => {
     setIsEditing(true);
     setEditComponent(component);
@@ -43,10 +42,6 @@ const ProfilePicture = ({ isDifferentProfile = false, userId = null }) => {
         const followingCount = response.data.following_count;
         setFollowersCount(followersCount);
         setFollowingCount(followingCount);
-
-        // Now you can use these counts in your component as needed
-        console.log('Followers Count:', followersCount);
-        console.log('Following Count:', followingCount);
         } catch (error) {
         console.error('Error checking if following user:', error);
       }

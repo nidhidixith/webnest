@@ -14,8 +14,6 @@ const TryLogin = ({ handleLoginClick, handleSignUpClick }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
 
-  //console.log("isShowLogin of trylogin.jsx:",isShowLogin);
-
   const handleLogin = async () => {
     try {
       const response = await axios.post(`${API_BASE_URL}login/`, { username, password });
@@ -39,11 +37,6 @@ const TryLogin = ({ handleLoginClick, handleSignUpClick }) => {
   return (
       <>
         <div className="form-LContainer">
-
-            {/*<button className="close-button" onClick={handleLoginClick}>
-               <span>&times;</span>
-            </button>*/}
-
             <h1>Login</h1>
             {error && <div className="login-error-message">{error}</div>}
             <div className="login-group">
@@ -53,15 +46,13 @@ const TryLogin = ({ handleLoginClick, handleSignUpClick }) => {
                 <label>Password:</label>
                 <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
 
-                   <button onClick={handleLogin}>Login</button>
-
+                <button onClick={handleLogin}>Login</button>
             </div>
 
             <div className="login-signup-container">
               <p>Don't have an account? Click here to</p>
                  <a href="#" onClick={() => { handleSignUpClick(); handleLoginClick(); }}>Signup</a>
             </div>
-
         </div>
         </>
   );

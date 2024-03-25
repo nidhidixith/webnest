@@ -15,7 +15,6 @@ const DisplayNetwork = () => {
 
   return(
     <div className="outer-my-network-container">
-
        <div className="followers-or-following-container">
          <button className={activeTab === 'my-followers' ? 'clicked' : ''}
              onClick={() => handleButtonClick('my-followers')}>Followers
@@ -24,13 +23,11 @@ const DisplayNetwork = () => {
              onClick={() => handleButtonClick('my-following')}>Following
          </button>
        </div>
-
        <div className="followers-or-following-list">
           {activeTab === 'my-followers' && <FollowersList/>}
           {activeTab === 'my-following' && <FollowingList/>}
        </div>
     </div>
-
   );
 };
 

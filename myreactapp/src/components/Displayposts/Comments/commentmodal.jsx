@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './commentmodal.css';
-import calculateElapsedTime from '../../calculateElapsedTime.jsx';
+import calculateElapsedTime from '../../../calculateElapsedTime.jsx';
 const API_BASE_URL = 'http://localhost:8000/api/';
 
 const CommentModal = ({ comments, closeCommentModal, handleProfileButtonClick }) => {

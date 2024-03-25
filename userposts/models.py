@@ -26,14 +26,6 @@ class UserPosts(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.id}"
 
-    # def like_count(self):
-    #     return Likes.objects.filter(post=self).count()
-
-# class Repost(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     original_post = models.ForeignKey(UserPosts, on_delete=models.CASCADE)
-#     text = models.TextField(max_length=500, blank=True)
-#     created_at = models.DateTimeField(auto_now_add=True)
 
 class Repost(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

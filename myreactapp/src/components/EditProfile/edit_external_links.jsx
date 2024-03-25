@@ -11,7 +11,6 @@ const EditExternalLinks = ({ renderComponent, onEditCancel, updateUserProfile })
     externalLink: '',
   });
 
-  //const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
   const token = localStorage.getItem('token');
@@ -85,8 +84,6 @@ const EditExternalLinks = ({ renderComponent, onEditCancel, updateUserProfile })
         onEditCancel();
         setSuccess(true);
         updateUserProfile(response.data);
-
-        //navigate('/displayprofile');
       } catch (error) {
         setError(error.response.data);
       }

@@ -18,18 +18,10 @@ class BasicDetailsSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='user.username', read_only=True)
     profile_pic = serializers.ImageField(use_url=True, required=False)
 
-    # followers_count = serializers.SerializerMethodField()
-    # following_count = serializers.SerializerMethodField()
-
     class Meta:
         model = UserDetails
         fields = ['username', 'first_name', 'last_name', 'profile_pic']
 
-    # def get_followers_count(self, obj):
-    #     return obj.followers_count()
-    #
-    # def get_following_count(self, obj):
-    #     return obj.following_count()
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:

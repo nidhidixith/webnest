@@ -77,8 +77,7 @@ def success(request):
 def complete_user_profile(request):
     user = request.user
     user_profile, created = UserDetails.objects.get_or_create(user=user)
-    print("Requested data:")
-    print(request.data)
+
     # Use the serializer to update the user profile fields
     serializer = UserProfileSerializer(user_profile, data=request.data, partial=True)
     print("Serializer is")
@@ -97,12 +96,8 @@ def complete_user_profile(request):
 def get_basic_details(request):
     print("Ok")
     if request.method == 'GET':
-        #print("Fine")
         user_profile = request.user.userdetails
-        #print("Almost there basic details")
-        #print(user_profile)
         serializer = BasicDetailsSerializer(user_profile)
-        #print("yayy")
         return Response(serializer.data)
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -111,7 +106,6 @@ def get_basic_details(request):
 @permission_classes([AllowAny])
 def get_basic_details_by_id(request, user_id):
     user_details = get_object_or_404(UserDetails, user__id=user_id)
-    #print(user_details)
     serializer = BasicDetailsSerializer(user_details)
     return Response(serializer.data)
 
@@ -154,53 +148,37 @@ def follow_user(request, user_id):
 def check_follow(request, user_id):
     user_to_check = get_object_or_404(User, id=user_id)
     current_user = request.user
-
     is_following = UserRelationships.objects.filter(follower=current_user, following=user_to_check).exists()
-
     return Response({'is_following': is_following})
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def followers_following_count(request, user_id):
-    #print("HELLO...")
     user_to_check = get_object_or_404(User, id=user_id)
     current_user = request.user
-
     followers_count = UserRelationships.objects.filter(following=user_to_check).count()
     print(followers_count)
     following_count = UserRelationships.objects.filter(follower=user_to_check).count()
     print(following_count)
-
     return Response({'followers_count': followers_count, 'following_count': following_count})
 
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def current_user_followers_following_count(request):
-    print("HELLO...I AM HERE")
     current_user = request.user
-
     followers_count = UserRelationships.objects.filter(following=current_user).count()
-    print(followers_count)
     following_count = UserRelationships.objects.filter(follower=current_user).count()
-    print(following_count)
-
     return Response({'followers_count': followers_count, 'following_count': following_count})
 
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_bio(request):
-    #print("Ok")
     user_id = request.user.id
-    #print("UserID:", user_id)
     if request.method == 'GET':
-        #print("Fine")
         user_profile = request.user.userdetails
-        #print("Almost there bio")
-        #print(user_profile)
         serializer = BioSerializer(user_profile)
-        #print("yayy")
         return Response(serializer.data)
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -208,20 +186,15 @@ def get_bio(request):
 @permission_classes([AllowAny])
 def get_bio_by_id(request, user_id):
     user_details = get_object_or_404(UserDetails, user__id=user_id)
-    #print(user_details)
     serializer = BioSerializer(user_details)
     return Response(serializer.data)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_external_links(request):
-    #print("Ok")
     if request.method == 'GET':
-        #print("Fine")
         user_profile = request.user.userdetails
-        #print("Almost there")
         serializer = ExternalLinksSerializer(user_profile)
-        #print("yayy")
         return Response(serializer.data)
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -230,20 +203,15 @@ def get_external_links(request):
 @permission_classes([AllowAny])
 def get_external_links_by_id(request, user_id):
     user_details = get_object_or_404(UserDetails, user__id=user_id)
-    #print(user_details)
     serializer = ExternalLinksSerializer(user_details)
     return Response(serializer.data)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_interests(request):
-    #print("Ok")
     if request.method == 'GET':
-        #print("Fine")
         user_profile = request.user.userdetails
-        #print("Almost there")
         serializer = InterestsSerializer(user_profile)
-        #print("yayy")
         return Response(serializer.data)
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -251,7 +219,6 @@ def get_interests(request):
 @permission_classes([AllowAny])
 def get_interests_by_id(request, user_id):
     user_details = get_object_or_404(UserDetails, user__id=user_id)
-    #print(user_details)
     serializer = InterestsSerializer(user_details)
     return Response(serializer.data)
 
@@ -267,13 +234,8 @@ def get_user_profile(request):
 @permission_classes([IsAuthenticated])
 def edit_basic_details(request):
     user = request.user
-    print(user)
     user_profile, created = UserDetails.objects.get_or_create(user=user)
-    print(request.data)
-    # Use the serializer to update the user profile fields
     serializer = BasicDetailsSerializer(user_profile, data=request.data, partial=True)
-    print(serializer)
-    # Validate and save the serializer
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -286,13 +248,8 @@ def edit_basic_details(request):
 @permission_classes([IsAuthenticated])
 def edit_bio(request):
     user = request.user
-    print(user)
     user_profile, created = UserDetails.objects.get_or_create(user=user)
-    print(request.data)
-    # Use the serializer to update the user profile fields
     serializer = BioSerializer(user_profile, data=request.data, partial=True)
-    print(serializer)
-    # Validate and save the serializer
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -300,18 +257,12 @@ def edit_bio(request):
         print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
 def edit_external_links(request):
     user = request.user
-    print(user)
     user_profile, created = UserDetails.objects.get_or_create(user=user)
-    print(request.data)
-    # Use the serializer to update the user profile fields
     serializer = ExternalLinksSerializer(user_profile, data=request.data, partial=True)
-    print(serializer)
-    # Validate and save the serializer
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -324,13 +275,8 @@ def edit_external_links(request):
 @permission_classes([IsAuthenticated])
 def edit_interests(request):
     user = request.user
-    print(user)
     user_profile, created = UserDetails.objects.get_or_create(user=user)
-    print(request.data)
-    # Use the serializer to update the user profile fields
     serializer = InterestsSerializer(user_profile, data=request.data, partial=True)
-    print(serializer)
-    # Validate and save the serializer
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -342,12 +288,9 @@ def edit_interests(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_followers_list(request):
-    user = request.user  # Assuming you are using TokenAuthentication or another authentication method
-
-    # Retrieve followers of the user
+    user = request.user
     followers_query = UserRelationships.objects.filter(following=user)
     followers = followers_query.select_related('follower__userdetails')
-
     serializer = FollowersListSerializer(followers, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -355,11 +298,8 @@ def get_followers_list(request):
 @permission_classes([IsAuthenticated])
 def get_following_list(request):
     user = request.user  # Assuming you are using TokenAuthentication or another authentication method
-
-    # Retrieve followers of the user
     following_query = UserRelationships.objects.filter(follower=user)
     following = following_query.select_related('following__userdetails')
-
     serializer = FollowingListSerializer(following, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 

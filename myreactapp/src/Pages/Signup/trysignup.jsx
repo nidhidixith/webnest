@@ -16,7 +16,6 @@ const TrySignup = ({ handleSignUpClick, handleLoginClick }) => {
   const [emailError, setEmailError] = useState('');
   const [emailExistsError, setEmailExistsError] = useState('');
 
-  //console.log("isShowSignUp of trysignup.jsx:",isShowSignUp);
   const handleClose = () => {
        navigate('/');
   };
@@ -56,11 +55,6 @@ const TrySignup = ({ handleSignUpClick, handleLoginClick }) => {
   return (
       <>
       <div className="form-SContainer">
-
-          {/*<button className="close-button" onClick={handleSignUpClick}>
-             <span>&times;</span>
-          </button>*/}
-
           <h1>Sign Up</h1>
            {emailError && <p className="signup-error-message1">{emailError}</p>}
           {emailExistsError && <p className="signup-error-message2">{emailExistsError}</p>}
@@ -76,13 +70,10 @@ const TrySignup = ({ handleSignUpClick, handleLoginClick }) => {
 
           <div className="signup-login-container">
             <p>Already have an account?</p>
-
             <a href="#" onClick={() => { handleLoginClick(); handleSignUpClick();}}>Login</a>
-
           </div>
       </div>
       </>
-
   );
 };
 

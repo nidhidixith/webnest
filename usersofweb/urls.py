@@ -11,14 +11,12 @@ urlpatterns = [
     path('signup/', signup, name='signup'),
     path('login/', user_login, name='login'),
     path('userprofile/', complete_user_profile, name='userprofile-detail'),
-    #path('displayprofile/', display_profile, name='display-profile'),
 
     path('get-profile/basic-details', get_basic_details, name='get-basic-details'),
     path('get-profile/bio', get_bio, name='get-bio'),
     path('get-profile/external-links', get_external_links, name='get-external-links'),
     path('get-profile/interests', get_interests, name='get-interests'),
 
-    #path('editprofile/', edit_profile, name='edit-profile'),
     path('edit-profile/basic-details', edit_basic_details, name='edit-basic-details'),
     path('edit-profile/bio', edit_bio, name='edit-bio'),
     path('edit-profile/external-links', edit_external_links, name='edit-external-links'),

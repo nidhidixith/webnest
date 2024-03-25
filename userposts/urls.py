@@ -18,7 +18,6 @@ urlpatterns = [
     path('get-comments/<int:post_id>/', get_comments, name='get_comments'),
 
     path('get-reposts-count/<int:post_id>/', get_reposts_count, name='get_reposts_count'),
-
     path('repost/', repost_post, name='repost_post'),
     path('get-reposts/', get_reposts, name='get_reposts'),
     path('get-other-users-reposts-by-id/<int:user_id>/', get_other_users_reposts_by_id, name='get-other-users-reposts-by-id'),

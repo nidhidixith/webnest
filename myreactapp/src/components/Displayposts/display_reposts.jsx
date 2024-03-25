@@ -4,10 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import BaseLayout from '../BaseLayout/baselayout';
 import './displayposts.css';
 import Navbar from '../Navbar/navbar.jsx';
-import CommentBox from '../DisplayPosts/commentbox.jsx';
-import CommentModal from '../DisplayPosts/commentmodal.jsx';
-import LikesModal from '../DisplayPosts/likesmodal.jsx';
-import RepostModal from '../DisplayPosts/repostmodal.jsx';
+import CommentBox from '../DisplayPosts/Comments/commentbox.jsx';
+import CommentModal from '../DisplayPosts/Comments/commentmodal.jsx';
+import LikesModal from '../DisplayPosts/Likes/likesmodal.jsx';
+import RepostModal from '../DisplayPosts/Reposts/repostmodal.jsx';
 import calculateElapsedTime from '../../calculateElapsedTime.jsx';
 
 const API_BASE_URL = 'http://localhost:8000/api/';
